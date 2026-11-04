@@ -16,6 +16,9 @@ Signature/key/digest lengths are exact. Caller owns freshness, rollback, origin
 policy, key distribution, final-file authorization and staging parent exclusivity.
 
 Open a held parent Root and create a new 0600 staging regular file exclusively.
+Check staging absence under the no-other-writers contract before exclusive
+creation. Failed create/open can leave a new entry: track possible ownership
+from that absence check and attempted creation, not just a valid File token.
 Never truncate, reuse or remove a pre-existing staging entry. Staging and final
 names are distinct strict leaves in the same held parent, with no other writers
 for the workflow's duration. This is an explicit private-directory contract, not
@@ -35,7 +38,7 @@ execution or extraction. Existing archive size limits remain separate.
 ## Failure and outcome handling
 
 Before publication: cancel/transport error/interrupted or truncated transfer/
-byte cap/hash/write/sync/close failure leaves final absent and attempts cleanup
+byte cap/hash/write/sync/close failure creates/replaces no final entry and attempts cleanup
 of only the exclusively created staging name. Always close HTTP/file/context
 resources and report cleanup errors separately; do not mask the primary error or
 claim cleanup succeeded merely because it was attempted. Staging residue is
@@ -45,6 +48,8 @@ Publication: preserve NoReplace and filesystem RenameResult.outcome semantics.
 Applied can coexist with a later sync/close error: report published-with-error,
 never roll back the destination. Unknown can mean mutation despite an error:
 report uncertainty and do not retry or clean namespace entries speculatively.
+Even raced EEXIST follows Unknown: preserve existing final bytes and retain/report
+the verified staging entry.
 NotAttempted permits ordinary owned-staging cleanup. No universal crash-durability
 claim; distinguish file-data sync, parent sync and outcome.
 
@@ -69,3 +74,7 @@ avoid universal performance claims or timing thresholds in CI.
 
 HTTP interface and published FS pin are being coordinated with their owners;
 consumer implementation must use reviewed published pins, not sibling WIP.
+
+The last cancellation check before rename is the publication commitment boundary.
+Signals after it cannot promise final absence. Repeated SIGINT/SIGTERM must not
+skip cooperative cleanup; SIGKILL, crash and abort cleanup are not guaranteed.
