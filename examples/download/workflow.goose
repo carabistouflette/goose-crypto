@@ -68,8 +68,13 @@ fn cancellation(result: Result&) -> bool {
     return true;
 }
 fn valid_leaf(name: const u8[:]) -> bool {
-    if name.len < 1 || name.len > 255 || name == "." || name == ".." { return false; }
-    for c in name { if c == 0 || c == '/' { return false; } }
+    if name.len < 1 || name.len > 255 || name[name.len - 1] == '.' { return false; }
+    // Canonical ASCII excludes casefold/Unicode and short-name (~) aliases.
+    // The caller must still supply filesystem-distinct, non-aliasing leaves.
+    if !((name[0] >= 'a' && name[0] <= 'z') || (name[0] >= '0' && name[0] <= '9')) { return false; }
+    for c in name {
+        if !((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '.' || c == '_' || c == '-') { return false; }
+    }
     return true;
 }
 fn missing(status: fs::Status) -> bool {
