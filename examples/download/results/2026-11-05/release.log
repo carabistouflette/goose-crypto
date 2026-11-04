@@ -1,0 +1,21 @@
+mkdir -p .build
+gcc -std=c11 -Wall -Wextra -Werror examples/download/signals/test.c examples/download/signals/signals.c -Wl,--wrap=sigaction -o .build/download-signals
+./.build/download-signals
+download signal guard: lifecycle, repeated signals, prior actions and partial failures passed
+python3 examples/download/integration.py --goose "/tmp/goose-http-standalone-kn_xeeq3/.toolchain/goose/build/goose" --cc "gcc" --output ".build/download-release-final.json"
+building the package crypto's C with CMake
+building the package http's C with CMake
+building the package fs's C
+building the package json_codec's C with CMake
+building the package signals's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-gcc-5c6858699cf4bb4f/download-fixture
+building the package crypto's C with CMake
+building the package http's C with CMake
+building the package signals's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-gcc-5c6858699cf4bb4f/download-production
+download compiler transcript: /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-gcc-5c6858699cf4bb4f/compiler-commands.jsonl
+building the package crypto's C with CMake
+building the package signals's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-gcc-5c6858699cf4bb4f/download-recovery
+download integration: 61 checked scenarios passed (gcc, sanitize=False)
+download results: .build/download-release-final.json

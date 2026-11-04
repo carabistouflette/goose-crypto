@@ -109,6 +109,9 @@ writes, sync and close can wait longer.
 
 ## Validation harness
 
+See the [recorded local validation](VALIDATION.md) for exact tested sources,
+raw results and limits; hosted CI runs this matrix separately.
+
 ```sh
 python3 examples/download/integration.py --goose .toolchain/goose/build/goose --cc gcc
 python3 examples/download/integration.py --goose .toolchain/goose/build/goose --cc gcc --sanitize

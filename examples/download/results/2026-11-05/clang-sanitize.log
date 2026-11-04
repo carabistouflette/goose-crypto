@@ -1,0 +1,21 @@
+mkdir -p .build
+clang -std=c11 -Wall -Wextra -Werror -O1 -g -fno-omit-frame-pointer -fsanitize=address,undefined -no-pie examples/download/signals/test.c examples/download/signals/signals.c -Wl,--wrap=sigaction -o .build/download-signals-sanitize-clang
+ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ./.build/download-signals-sanitize-clang
+download signal guard: lifecycle, repeated signals, prior actions and partial failures passed
+python3 examples/download/integration.py --goose "/tmp/goose-http-standalone-kn_xeeq3/.toolchain/goose/build/goose" --cc "clang" --sanitize --output ".build/download-clang-sanitize-final.json"
+building the package crypto's C with CMake
+building the package http's C with CMake
+building the package fs's C
+building the package json_codec's C with CMake
+building the package signals's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-clang-23-390557c33aac9f1f/download-fixture
+building the package crypto's C with CMake
+building the package http's C with CMake
+building the package signals's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-clang-23-390557c33aac9f1f/download-production
+download compiler transcript: /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-clang-23-390557c33aac9f1f/compiler-commands.jsonl
+building the package crypto's C with CMake
+building the package signals's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/download-clang-23-390557c33aac9f1f/download-recovery
+download integration: 61 checked scenarios passed (clang, sanitize=True)
+download results: .build/download-clang-sanitize-final.json
