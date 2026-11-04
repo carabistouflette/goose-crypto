@@ -32,6 +32,24 @@ def run(command, **kwargs):
     return subprocess.run(command, check=True, timeout=600, **kwargs)
 
 
+def check_sanitizer_linker(folder: Path, wrapper: Path, cxx_wrapper: Path):
+    """Exercise C final linking with an explicitly vptr-instrumented C++ object."""
+    cpp, source, obj, binary = [folder / name for name in (
+        "link-check.cpp", "link-check.c", "link-check.o", "link-check")]
+    cpp.write_text('struct Base { virtual int value() { return 7; } };\n'
+                   'extern "C" int dispatch(Base *p) { return p->value(); }\n'
+                   'extern "C" Base *object() { static Base base; return &base; }\n')
+    source.write_text('struct Base;\nextern struct Base *object(void);\n'
+                      'extern int dispatch(struct Base *);\n'
+                      'int main(void) { return dispatch(object()) != 7; }\n')
+    # Explicit vptr keeps this regression useful on Clang versions where it is
+    # excluded from the default undefined group. Do not disable the check.
+    run([str(cxx_wrapper), "-fsanitize=vptr", "-c", str(cpp), "-o", str(obj)])
+    run([str(wrapper), str(source), str(obj), "-lstdc++", "-o", str(binary)])
+    run([str(binary)], env=dict(os.environ, ASAN_OPTIONS="detect_leaks=1:abort_on_error=1",
+                               UBSAN_OPTIONS="halt_on_error=1"))
+
+
 def build(goose: Path, cc: str, sanitize: bool):
     compiler = shutil.which(cc)
     if compiler is None:
@@ -59,19 +77,26 @@ def build(goose: Path, cc: str, sanitize: bool):
          *curl_flags, "-c", str(HERE / "transport.c"), "-o", str(shim)])
     wrapper = folder / "cc"
     commands = folder / "compiler-commands.jsonl"
+    # The final Goose link uses the C driver even when dependencies contain
+    # instrumented C++. Request its C++ sanitizer runtime without treating the
+    # generated C as C++ or disabling vptr checks.
+    link_flags = ["-fsanitize=vptr", "-fsanitize-link-c++-runtime", "-lstdc++"] if sanitize and b"clang" in version.lower() else []
     for driver, name in [(compiler, "cc"), (cxx, cxx_name)]:
+        driver_flags = flags + (["-fsanitize=vptr"] if sanitize and driver == cxx else [])
         script = folder / name
         script.write_text("#!/usr/bin/env python3\nimport json, os, sys\n"
-                          f"compiler={driver!r}\nflags={flags!r}\nlog={str(commands)!r}\n"
+                          f"compiler={driver!r}\nflags={driver_flags!r}\nlink_flags={link_flags!r}\nlog={str(commands)!r}\n"
                           "args=sys.argv[1:]\n"
                           "probe=any(a in args for a in ('-v','--version','-dumpversion','-dumpmachine'))\n"
                           "link=not probe and not any(a in args for a in ('-c','-E','-S'))\n"
-                          f"extra=[{str(shim)!r}, '-Wl,--wrap=curl_easy_perform', '-lcurl'] if link else []\n"
+                          f"extra=[{str(shim)!r}, '-Wl,--wrap=curl_easy_perform', '-lcurl', *link_flags] if link else []\n"
                           + ("if link: extra.append('-no-pie')\n" if sanitize else "")
                           + "effective=[compiler,*args,*([] if probe else flags),*extra]\n"
                           "with open(log,'a') as f: f.write(json.dumps(effective)+'\\n')\n"
                           "os.execv(compiler,effective)\n")
         script.chmod(0o755)
+    if sanitize:
+        check_sanitizer_linker(folder, wrapper, folder / cxx_name)
     fixture = folder / "artifact-fixture"
     run([str(goose), "build", "examples/artifact/main.goose", "--standalone", "--cc", str(wrapper),
          "-o", str(fixture)], cwd=ROOT)

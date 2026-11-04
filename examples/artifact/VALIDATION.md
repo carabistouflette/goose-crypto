@@ -33,3 +33,23 @@ This is finite regression coverage, not proof of a complete secure updater. See
 trust/freshness/rollback/authorization responsibilities. No performance claim is
 made for the composed example. No external artifact service is contacted by the
 integration tests; pinned source fetching during build does require network access.
+
+## Mixed C/C++ sanitizer link regression
+
+Ubuntu's Clang 18 CI exposed missing C++ UBSan virtual-type runtime symbols at
+the final Goose C-driver link. Instrumented JSON C++ objects need that runtime;
+linking the C++ standard library alone is insufficient. Earlier local Clang 23
+runs did not expose it because vptr was not part of their default undefined group.
+
+The harness now explicitly enables C++ vptr instrumentation and requests Clang's
+C++ sanitizer runtime plus libstdc++ at sanitized final links. Generated Goose C
+remains C and no sanitizer checks are disabled. The flags are documented in the
+[Clang 18 command reference](https://releases.llvm.org/18.1.8/tools/clang/docs/ClangCommandLineReference.html#cmdoption-clang-fsanitize-link-c-runtime).
+
+Before the full build, a regression compiles an explicitly vptr-instrumented C++
+virtual dispatch object and links it with a C source through the actual fixture
+wrappers. It reproduced the same missing symbols before the fix and passes after
+it. This catches the failure across compiler versions, independently of their
+default sanitizer groups. The complete 22-case suites pass with Clang 23 and
+GCC 16 sanitizers, including explicit C++ vptr checks. An independent focused
+review approved the fix. Hosted Clang 18 validation is required before merge.
