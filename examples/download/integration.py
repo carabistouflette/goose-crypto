@@ -304,7 +304,7 @@ def frozen_inputs(goose: Path, cc: str):
             resolved = (HERE / source).resolve()
             item["resolved_path"] = str(resolved)
             # Core/local signal sources are covered by the complete root snapshot.
-            if resolved != ROOT and not resolved.is_relative_to(ROOT):
+            if resolved != ROOT and (not resolved.is_relative_to(ROOT) or (resolved / ".git").exists()):
                 item["development_snapshot"] = source_snapshot(resolved)
         elif not re.search(r"@[0-9a-f]{40}$", source):
             raise RuntimeError(f"Dependency {name} is not pinned to a full commit")
@@ -333,7 +333,7 @@ def main():
     parser.add_argument("--sanitize", action="store_true")
     parser.add_argument("--output", type=Path, default=ROOT / ".build/download-results.json")
     args = parser.parse_args()
-    before = frozen_inputs(args.goose, args.cc)
+    frozen_before = frozen_inputs(args.goose, args.cc)
     fixture, production, recovery, build_folder = build(args.goose.resolve(), args.cc, args.sanitize)
     binaries = {name: path for name, path in (("fixture", fixture), ("production", production), ("recovery", recovery))}
     binary_hashes = {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in binaries.items()}
@@ -591,15 +591,15 @@ def main():
             server.shutdown()
             server.server_close()
             thread.join(timeout=5)
-    if frozen_inputs(args.goose, args.cc) != before:
+    if frozen_inputs(args.goose, args.cc) != frozen_before:
         raise RuntimeError("Source/compiler/backend inputs changed during execution; results rejected")
     if {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in binaries.items()} != binary_hashes:
         raise RuntimeError("Consumer binary changed during execution; results rejected")
     transcript = build_folder / "compiler-commands.jsonl"
-    result = {"inputs": before, "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+    result = {"inputs": frozen_before, "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
               "source_sha256": {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
                                 for name in ["main.goose", "workflow.goose", "integration.py", "transport.c", "faults.c"]},
-              "platform": platform.platform(), "cc": args.cc, "sanitize": args.sanitize,
+              "platform": platform.platform(), "affinity": sorted(os.sched_getaffinity(0)), "cc": args.cc, "sanitize": args.sanitize,
               "compiler_commands": [json.loads(line) for line in transcript.read_text().splitlines()],
               "compiler_commands_sha256": hashlib.sha256(transcript.read_bytes()).hexdigest(),
               "binary_sha256": binary_hashes,
