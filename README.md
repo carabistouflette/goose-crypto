@@ -2,10 +2,10 @@
 
 SHA-256, strict hex conversion and detached Ed25519 verification for
 [Goose](https://github.com/aardappel/goose), backed by system libsodium.
-Apache-2.0. Experimental interface; no release yet.
+Apache-2.0. Experimental interface; initial prerelease `v0.1.0-alpha.1`.
 
 ```goose
-import crypto from "../goose-crypto";
+import crypto from "carabistouflette/goose-crypto@c6774f59f8d5a4e46c247ededd6d9ecdcd5c6502";
 import std;
 fn main() {
     var digest: u8[32] = [0; 32];
@@ -16,8 +16,11 @@ fn main() {
 }
 ```
 
-Declare the package in the application's root source. This uses a sibling
-checkout; a pinned remote import will follow publication. Namespace: `crypto`.
+Save this as `main.goose`, then run `goose run main.goose`. Declare the package
+in the application's root source. The example pins published source; for local
+work use `import crypto from "../goose-crypto";`. Namespace: `crypto`.
+
+Public repository: [carabistouflette/goose-crypto](https://github.com/carabistouflette/goose-crypto).
 
 ## Development
 
@@ -25,7 +28,9 @@ Ubuntu dependencies: Git, CMake >=3.27, Make, pkg-config, C/C++20 toolchain,
 Python >=3.11 with cryptography, libsodium development headers >=1.0.18, Clang for fuzzing.
 
 ```sh
-sudo apt-get install build-essential cmake ninja-build pkg-config python3 python3-cryptography libsodium-dev clang
+sudo apt-get install git build-essential cmake ninja-build pkg-config python3 python3-cryptography libsodium-dev clang
+git clone https://github.com/carabistouflette/goose-crypto.git
+cd goose-crypto
 make setup
 make format check test
 make sanitize public-sanitize SANITIZER_CC=gcc
