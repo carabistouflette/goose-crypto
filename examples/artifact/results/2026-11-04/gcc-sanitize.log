@@ -1,0 +1,10 @@
+building the package crypto's C with CMake
+building the package http's C with CMake
+building the package archive's C with CMake
+building the package json_codec's C with CMake
+building the package fs's C
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/artifact-gcc-a92cb08f5af4e19b/artifact-fixture
+building the package crypto's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/artifact-gcc-a92cb08f5af4e19b/artifact-production
+artifact compiler transcript: /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/artifact-gcc-a92cb08f5af4e19b/compiler-commands.jsonl
+artifact integration: 22 loopback HTTPS cases passed (gcc, sanitize=True)

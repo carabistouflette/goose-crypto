@@ -1,0 +1,22 @@
+{
+  "failed_ci": "https://github.com/carabistouflette/goose-crypto/actions/runs/41899594843",
+  "failure": "Clang18 final C-driver link omitted C++ UBSan vptr runtime",
+  "red_symbols": [
+    "__ubsan_vptr_type_cache",
+    "__ubsan_handle_dynamic_type_cache_miss"
+  ],
+  "regression": "Actual fixture wrappers compile explicit-vptr C++ dispatch object and link with C source; failed before fix, passes after",
+  "wrapper_source_sha256": "cd757482650db538c12a7454264896b0d1c70b1443cd4b2a3c9de7e0041a3a4b",
+  "clang_link_flags": [
+    "-fsanitize=vptr",
+    "-fsanitize-link-c++-runtime",
+    "-lstdc++"
+  ],
+  "local_validation": {
+    "clang23_asan_ubsan_https_cases": 22,
+    "gcc16_asan_ubsan_https_cases": 22,
+    "make_check": "PASS"
+  },
+  "review": "Independent mixed C/C++ and pure-C link probes approved; no remaining findings",
+  "scope": "Test harness only; production source, pinned dependencies, TLS policy and release tag unchanged; hosted Clang18 remains merge gate"
+}
