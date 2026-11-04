@@ -2,7 +2,7 @@
 
 SHA-256, strict hex conversion and detached Ed25519 verification for
 [Goose](https://github.com/aardappel/goose), backed by system libsodium.
-Apache-2.0. Experimental interface; no release yet.
+Apache-2.0. Experimental interface; initial prerelease `v0.1.0-alpha.1`.
 
 ```goose
 import crypto from "carabistouflette/goose-crypto@c6774f59f8d5a4e46c247ededd6d9ecdcd5c6502";

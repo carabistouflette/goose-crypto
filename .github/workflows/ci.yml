@@ -22,4 +22,4 @@ jobs:
           name: benchmark-samples
           path: .build/bench.json
           include-hidden-files: true
-          if-no-files-found: warn
+          if-no-files-found: error

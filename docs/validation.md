@@ -2,8 +2,8 @@
 
 Validated implementation: `fc3ba768dd4d00fc8592873810ffe4f1be722564`.
 This document and the recorded artifacts were added afterward without changing
-production code. Local validation passed; hosted CI is configured but has not
-run because this repository has not been published.
+production code. This records passing initial local validation; it is not a
+hosted CI report. Later publication checks run independently in GitHub Actions.
 
 Environment: Linux x86-64/glibc 2.44, Intel Core Ultra 7 258V, GCC 16.2.1,
 Clang 23, libsodium 1.0.22. Goose source pin
