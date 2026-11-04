@@ -107,3 +107,10 @@ checks a bounded download's SHA-256, then extracts into a fresh directory.
 It composes pinned public libraries and has separate loopback HTTPS integration
 checks. HTTP is buffered (4 MiB cap); it is not an installer or a complete update
 protocol. This example was added after `v0.1.0-alpha.1`; see the main branch for it.
+
+The optional [streaming download consumer](examples/download/README.md) writes
+bounded HTTPS chunks into a private staging file and publishes only after clean
+transport completion and digest verification. It demonstrates cooperative signal
+cancellation, checked file synchronization and conservative rename outcomes.
+The caller owns trust, freshness and installation policy. This example also
+postdates `v0.1.0-alpha.1`.

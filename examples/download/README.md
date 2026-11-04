@@ -5,10 +5,10 @@ SHA-256 into an exclusively created staging file, and publishes verified bytes
 with a no-replace rename. It does not buffer the complete artifact, extract it,
 install it or execute it. Core goose-crypto remains independent of I/O.
 
-The HTTP streaming dependency is being coordinated with its owner. Do not treat
-a local development import as a published integration pin; the final source must
-pin the reviewed public HTTP commit. Filesystem retained I/O and checked rename
-use public `cd0bd29c78c435caaebf75bfecd8e3e2083636eb`.
+The example pins reviewed public sources: HTTP streaming at
+[`aa915a0`](https://github.com/carabistouflette/goose-http/blob/aa915a0b21db1129f85e6e339a6f0171bcac0e77/docs/API.md)
+and filesystem retained I/O and checked rename at
+[`cd0bd29`](https://github.com/carabistouflette/goose-fs/blob/cd0bd29c78c435caaebf75bfecd8e3e2083636eb/docs/RENAME.md).
 
 ## Build and run
 
@@ -143,6 +143,9 @@ a composition, not certification of a complete secure update protocol.
 The successful-transfer gate includes a withheld-last-byte barrier: the fixture
 waits until the prefix is written and confirms that no final entry exists before
 releasing the last byte. The reset case waits for every signed prefix byte to be
-written before an abortive TCP close. Input/source, compiler/backend and consumer
-binary fingerprints are checked before and after execution; changed inputs reject
-the result rather than attributing observations to a moving tree.
+written before an abortive TCP close. Source, compiler and consumer binary hashes
+and backend version metadata are checked before and after execution; changes
+reject the result rather than attributing observations to a moving tree. Backend
+version strings do not detect replacement of a library with the same version.
+Compiler transcripts contain only commands issued during that invocation; cached
+objects can omit compilation commands.

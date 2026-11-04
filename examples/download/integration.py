@@ -74,6 +74,10 @@ def build(goose: Path, cc: str, sanitize: bool):
                               + version + cxx_version + repr((compiler, cxx, compiler_hashes, flags)).encode()).hexdigest()[:16]
     folder = ROOT / ".build" / f"download-{Path(compiler).name}-{identity}"
     folder.mkdir(parents=True, exist_ok=True)
+    # Goose may reuse cached objects, but this transcript belongs only to this
+    # invocation. Cache hits must not inherit commands from an earlier source.
+    commands = folder / "compiler-commands.jsonl"
+    commands.write_text("")
     shim = folder / "transport.o"
     curl_flags = shlex.split(subprocess.check_output(["pkg-config", "--cflags", "libcurl"], text=True))
     run([compiler, "-std=c11", "-Wall", "-Wextra", "-Werror", "-fPIC", *flags,
@@ -82,7 +86,6 @@ def build(goose: Path, cc: str, sanitize: bool):
     run([compiler, "-std=c11", "-Wall", "-Wextra", "-Werror", "-fPIC", *flags,
          "-c", str(HERE / "faults.c"), "-o", str(faults)])
     wrapper = folder / "cc"
-    commands = folder / "compiler-commands.jsonl"
     # The final Goose link uses the C driver even when dependencies contain
     # instrumented C++. Request its C++ sanitizer runtime without treating the
     # generated C as C++ or disabling vptr checks.
@@ -592,7 +595,7 @@ def main():
             server.server_close()
             thread.join(timeout=5)
     if frozen_inputs(args.goose, args.cc) != frozen_before:
-        raise RuntimeError("Source/compiler/backend inputs changed during execution; results rejected")
+        raise RuntimeError("Source/compiler/backend version metadata changed during execution; results rejected")
     if {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in binaries.items()} != binary_hashes:
         raise RuntimeError("Consumer binary changed during execution; results rejected")
     transcript = build_folder / "compiler-commands.jsonl"

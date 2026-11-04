@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+Optional verified streaming download example: pinned HTTP/FS composition,
+bounded incremental hashing and writes, cooperative SIGINT/SIGTERM cleanup,
+checked synchronization and no-replace publication. Separate real-TLS integration
+and GCC/Clang sanitizer checks cover cancellation and publication failures.
+
 ## 0.1.0-alpha.1 — 2026-11-04
 
 Initial experimental interface: SHA-256 one-shot/incremental hashing, strict
