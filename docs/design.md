@@ -39,3 +39,9 @@ branching, compiler ownership rejection, JIT/native/debug execution, GCC/Clang
 ASan/UBSan, guard-page reads and bounded native fuzzing. Benchmarks measure public
 Goose calls against direct libsodium with raw samples and full provenance; no
 universal performance claims or CI timing thresholds.
+
+Review refinements: all errors preserve state/output, including backend failures.
+One-shot/incremental SHA share LimitExceeded. Runtime overlap checks are required:
+Goose permits fixed-slice aliases. State may buffer sensitive data; clearing live
+storage does not securely erase copies. Backend init may perform OS/randomness
+work. Acceptance follows libsodium strict pure Ed25519, never streaming Ed25519ph.
