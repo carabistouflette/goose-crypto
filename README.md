@@ -98,3 +98,12 @@ as a MAC or use SHA-256 for passwords. No secure-memory guarantee.
 See [validation](docs/validation.md), [benchmarks](bench/README.md),
 [contributing](CONTRIBUTING.md), [security](SECURITY.md), and
 [notices](THIRD_PARTY_NOTICES.md).
+
+## Artifact verification example
+
+The optional [artifact consumer](examples/artifact/README.md) verifies exact signed
+metadata before parsing or networking, requires a caller-authorized HTTPS URL,
+checks a bounded download's SHA-256, then extracts into a fresh directory.
+It composes pinned public libraries and has separate loopback HTTPS integration
+checks. HTTP is buffered (4 MiB cap); it is not an installer or a complete update
+protocol. This example was added after `v0.1.0-alpha.1`; see the main branch for it.

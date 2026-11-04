@@ -63,3 +63,9 @@ fuzz:
 
 bench:
 	python3 bench/measure.py --goose "$(abspath $(GOOSE))" --cc "$(CC)" --iterations $(BENCH_ITERATIONS)
+
+.PHONY: artifact-test artifact-sanitize
+artifact-test:
+	python3 examples/artifact/integration.py --goose "$(abspath $(GOOSE))" --cc "$(CC)"
+artifact-sanitize:
+	python3 examples/artifact/integration.py --goose "$(abspath $(GOOSE))" --cc "$(SANITIZER_CC)" --sanitize
