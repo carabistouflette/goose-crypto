@@ -4,6 +4,7 @@ SANITIZER_CC ?= gcc
 FUZZ_CC ?= clang
 FUZZ_RUNS ?= 10000
 BENCH_ITERATIONS ?= 1000
+DOWNLOAD_OUTPUT ?= .build/download-results.json
 FAIL_WRAPS = -Wl,--wrap=sodium_init -Wl,--wrap=crypto_hash_sha256 -Wl,--wrap=crypto_hash_sha256_init -Wl,--wrap=crypto_hash_sha256_update -Wl,--wrap=crypto_hash_sha256_final
 CFLAGS = -std=c11 -Wall -Wextra -Werror
 SODIUM_FLAGS = $(shell pkg-config --cflags --libs libsodium)
@@ -82,9 +83,9 @@ download-signals:
 	$(CC) $(CFLAGS) examples/download/signals/test.c examples/download/signals/signals.c -Wl,--wrap=sigaction -o .build/download-signals
 	./.build/download-signals
 download-test: download-signals
-	python3 examples/download/integration.py --goose "$(abspath $(GOOSE))" --cc "$(CC)"
+	python3 examples/download/integration.py --goose "$(abspath $(GOOSE))" --cc "$(CC)" --output "$(DOWNLOAD_OUTPUT)"
 download-sanitize:
 	mkdir -p .build
 	$(SANITIZER_CC) $(CFLAGS) -O1 -g -fno-omit-frame-pointer -fsanitize=address,undefined -no-pie examples/download/signals/test.c examples/download/signals/signals.c -Wl,--wrap=sigaction -o .build/download-signals-sanitize-$(notdir $(SANITIZER_CC))
 	ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ./.build/download-signals-sanitize-$(notdir $(SANITIZER_CC))
-	python3 examples/download/integration.py --goose "$(abspath $(GOOSE))" --cc "$(SANITIZER_CC)" --sanitize
+	python3 examples/download/integration.py --goose "$(abspath $(GOOSE))" --cc "$(SANITIZER_CC)" --sanitize --output "$(DOWNLOAD_OUTPUT)"
