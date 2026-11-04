@@ -1,0 +1,11 @@
+make: Entering directory '/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto'
+mkdir -p .build
+gcc -std=c11 -Wall -Wextra -Werror -O1 -g -fno-omit-frame-pointer -fsanitize=address,undefined -no-pie -pthread tests/native.c native/crypto.c native/ranges.c -lsodium -o .build/native-sanitize-gcc
+ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ./.build/native-sanitize-gcc
+native crypto: known vectors, boundaries, lifecycle, aliases, corruption, signatures, guards passed
+gcc -std=c11 -Wall -Wextra -Werror -O1 -g -fno-omit-frame-pointer -fsanitize=address,undefined -no-pie -pthread tests/failures.c native/crypto.c -lsodium -Wl,--wrap=sodium_init -Wl,--wrap=crypto_hash_sha256 -Wl,--wrap=crypto_hash_sha256_init -Wl,--wrap=crypto_hash_sha256_update -Wl,--wrap=crypto_hash_sha256_final -o .build/failures-sanitize-gcc
+ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ./.build/failures-sanitize-gcc
+native backend failures: atomic state/output and initialization behavior passed
+ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ./.build/failures-sanitize-gcc init
+native backend failures: atomic state/output and initialization behavior passed
+make: Leaving directory '/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto'

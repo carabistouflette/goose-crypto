@@ -1,0 +1,1623 @@
+{
+  "schema": 1,
+  "timestamp_utc": "2026-11-04T19:06:57.858518+00:00",
+  "source": {
+    "head": "fc3ba768dd4d00fc8592873810ffe4f1be722564",
+    "status": "",
+    "content_sha256": "7d4c9781582bd966bf8730e1eaddb351dee47012a2aa1e9ada6f49893d9c32bc",
+    "files": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "mode": 33152,
+        "sha256": "aaf3675f75ed26e41dfbe52f81305becb5dcdb0dd9f4ff5a5f9bd86bac03220b"
+      },
+      {
+        "path": ".gitignore",
+        "mode": 33152,
+        "sha256": "1209ea25e255b24d5fc0e78c50c61037d78cc4f7c7e65cc4a22bd23a4cd2eec5"
+      },
+      {
+        "path": "CMakeLists.txt",
+        "mode": 33152,
+        "sha256": "222b114d20bae2e481c38eb6d9d74c9d39f57f206f9f12539f886767efd5fff5"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "mode": 33152,
+        "sha256": "54848932414e17c0e4fd25cb51a219d8f91204c1c63a632bc18819e9d46f7db3"
+      },
+      {
+        "path": "GOOSE_REVISION",
+        "mode": 33152,
+        "sha256": "64e14b181dfe96743211738fb0f1b1f7798ea940da2ca50ff122e6f028c24e15"
+      },
+      {
+        "path": "LICENSE",
+        "mode": 33152,
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "Makefile",
+        "mode": 33152,
+        "sha256": "3a5c211748d09ece1498cf9abcfa1a0b04f9fe558575676f3252abab66ae8a97"
+      },
+      {
+        "path": "README.md",
+        "mode": 33152,
+        "sha256": "8876c38777ce4e84566de9880f6ba65ac37a2ca75d7e9576e4ea825889c1e9d9"
+      },
+      {
+        "path": "SECURITY.md",
+        "mode": 33152,
+        "sha256": "3aede98242a975ee06ef264494c63cf5d0640790e8540a5a6f1f758f798b159a"
+      },
+      {
+        "path": "THIRD_PARTY_NOTICES.md",
+        "mode": 33152,
+        "sha256": "def296d0298c8e0efeae1c42ad7f99b6e51e3228fd7762267b7c2f7d08b19410"
+      },
+      {
+        "path": "bench/README.md",
+        "mode": 33152,
+        "sha256": "de1fcd98a50bf25d904f7dbdda8a002b28e9616d410964974dcd687f04edc04c"
+      },
+      {
+        "path": "bench/bench.goose",
+        "mode": 33152,
+        "sha256": "646e91f5639c0e1cef7635b5285fffbdfd70f51e54779692fe7cbc0de2cc4576"
+      },
+      {
+        "path": "bench/direct.c",
+        "mode": 33152,
+        "sha256": "00b42c7178e27fc16b040f8fcea0311b84870ce22c36fdab633b30aa97f1a1d8"
+      },
+      {
+        "path": "bench/measure.py",
+        "mode": 33152,
+        "sha256": "90610f39ad4a84fd226515efe701edb4fb038b98570c9fa21fae02a3de02869f"
+      },
+      {
+        "path": "crypto.build",
+        "mode": 33152,
+        "sha256": "42d5d3225733c87c1cc3443f06785e05cce34361701bb4d7e9cce6fdd1051388"
+      },
+      {
+        "path": "crypto.goose",
+        "mode": 33152,
+        "sha256": "c585a58f8143c022c5d4b0a23cd772a6173cf4b6bd61b73364af2474956fb03a"
+      },
+      {
+        "path": "docs/design.md",
+        "mode": 33152,
+        "sha256": "0bd61332822ee545914871477be3e783f3a37b8aa32bdf1fcfb952a52deb60a7"
+      },
+      {
+        "path": "examples/hash.goose",
+        "mode": 33152,
+        "sha256": "536e079ee9f5a90f39f025f29b6aa229b5ab202540b7b9d2877911b70ba4835a"
+      },
+      {
+        "path": "native/crypto.c",
+        "mode": 33152,
+        "sha256": "57e19f494ba4e245f22211b7a927b18353f5b2d63184f4c757dfc6ef6b580f51"
+      },
+      {
+        "path": "native/crypto.h",
+        "mode": 33152,
+        "sha256": "8bb8c1b1a9adaeff88059c855b0eeb239614a038afcf9768f2e9140a660b7d15"
+      },
+      {
+        "path": "native/ranges.c",
+        "mode": 33152,
+        "sha256": "b8bcada5b09d7edcb7bc7abdb8283226ef7e7f096feb777cda260f157e4fac24"
+      },
+      {
+        "path": "scripts/fuzz-seeds.py",
+        "mode": 33152,
+        "sha256": "e36522343f6395dc5a0f4a8e111d2a6eacaca5e5393dc3ba5425687e6a965b82"
+      },
+      {
+        "path": "scripts/native-manifest.py",
+        "mode": 33152,
+        "sha256": "284f23d5e35021d81997ae5787a7a502c866907e1f1fcb890fc988ceaa6f4ea1"
+      },
+      {
+        "path": "scripts/public-sanitize.py",
+        "mode": 33152,
+        "sha256": "153943eb752491cf878d8cbc945ef56d221c3dee388a17d4f7e4c44c3c8a426e"
+      },
+      {
+        "path": "scripts/setup-goose.sh",
+        "mode": 33216,
+        "sha256": "a258081d49cd91986ebbc17a5b2bec7b0acbde54821416143bbac7feec6977e2"
+      },
+      {
+        "path": "tests/api.goose",
+        "mode": 33152,
+        "sha256": "c0985d80684f0abdf0d94e36fb3c486813b98e33487a3621e54d1fd1412762e2"
+      },
+      {
+        "path": "tests/failures.c",
+        "mode": 33152,
+        "sha256": "fbc959763bb4dbadd5d5d359b0f3a843a6f3148bd8ff923c61829cac9e2c8c2d"
+      },
+      {
+        "path": "tests/fuzz.c",
+        "mode": 33152,
+        "sha256": "ac7e829d937df7445e4cc74e6297db76784b01779d05199214d3aeecc1cb07a7"
+      },
+      {
+        "path": "tests/native.c",
+        "mode": 33152,
+        "sha256": "e8663ec3f20676d572c1aa7e6a5b03ff55b5be3cc92b85b0f7d0bda7a45f4282"
+      },
+      {
+        "path": "tests/oracle.goose",
+        "mode": 33152,
+        "sha256": "ccef75d9db606b508f1f7cd892e65434a5766acd9fc912efd56174c47cc678a4"
+      },
+      {
+        "path": "tests/oracle.py",
+        "mode": 33152,
+        "sha256": "f5aa6ccde4437fdb4df67b37589700cbe67fc8913602d4d8eaa4faef930eaea6"
+      },
+      {
+        "path": "tests/ownership.py",
+        "mode": 33152,
+        "sha256": "a9933e6ee0b8bd1b860ba0ba472e0c04f35f624400efefecc2df419ec02c4778"
+      },
+      {
+        "path": "tests/signatures.goose",
+        "mode": 33152,
+        "sha256": "88c8986401dc1f5d8411f6589f6626da5b86b0c505cf7fc660e8969fc7bf64f1"
+      },
+      {
+        "path": "tests/signatures.py",
+        "mode": 33152,
+        "sha256": "248889748f6ed2d7816c13af835f1622b90dadb099331f2765f382393854813a"
+      }
+    ]
+  },
+  "toolchain": {
+    "goose_revision": "eadca409f68210893f366e60d0c2f0dc29a339be",
+    "goose_version": "goose eadca40 (runtime 3025e5810379)",
+    "goose_path": "/tmp/goose-http-standalone-kn_xeeq3/.toolchain/goose/build/goose",
+    "goose_binary_sha256": "d6992f984453e28b1e9fc2540236063c0c9db67634a99b57a9a46ea58704c313",
+    "cc": "/usr/bin/gcc",
+    "cc_binary_sha256": "8aac907d6fbf40394b424b5fa4a2ad1aa291dac7d3a0315c5b415c1f5ace1287",
+    "cc_version": "gcc (GCC) 16.2.1 20260810\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "libsodium": "1.0.22",
+    "build_commands": [
+      [
+        "/tmp/goose-http-standalone-kn_xeeq3/.toolchain/goose/build/goose",
+        "build",
+        "bench/bench.goose",
+        "--cc",
+        "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/bench/cc-gh2viwf1/cc",
+        "-O2",
+        "-o",
+        "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/bench/public"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-std=c11",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "bench/direct.c",
+        "-lsodium",
+        "-o",
+        "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/bench/direct"
+      ]
+    ],
+    "effective_public_compiler_commands": [
+      [
+        "/usr/bin/gcc",
+        "--version"
+      ],
+      [
+        "/usr/bin/gcc",
+        "--version"
+      ],
+      [
+        "/usr/bin/gcc",
+        "CMakeCCompilerId.c",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-print-sysroot",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-v",
+        "-o",
+        "CMakeFiles/cmTC_8fbbc.dir/CMakeCCompilerABI.c.o",
+        "-c",
+        "/usr/share/cmake/Modules/CMakeCCompilerABI.c"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-v",
+        "-Wl,-v",
+        "CMakeFiles/cmTC_8fbbc.dir/CMakeCCompilerABI.c.o",
+        "-o",
+        "cmTC_8fbbc"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-DCMAKE_HAVE_LIBC_PTHREAD",
+        "-fPIE",
+        "-o",
+        "CMakeFiles/cmTC_5f521.dir/src.c.o",
+        "-c",
+        "/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/cmake/CMakeFiles/CMakeScratch/TryCompile-Y6l2gL/src.c",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "CMakeFiles/cmTC_5f521.dir/src.c.o",
+        "-o",
+        "cmTC_5f521",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-I/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/include",
+        "-O3",
+        "-DNDEBUG",
+        "-fPIC",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-MD",
+        "-MT",
+        "pkg/CMakeFiles/goose_crypto_native.dir/native/crypto.c.o",
+        "-MF",
+        "pkg/CMakeFiles/goose_crypto_native.dir/native/crypto.c.o.d",
+        "-o",
+        "pkg/CMakeFiles/goose_crypto_native.dir/native/crypto.c.o",
+        "-c",
+        "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/native/crypto.c",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-I/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/include",
+        "-O3",
+        "-DNDEBUG",
+        "-fPIC",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-MD",
+        "-MT",
+        "pkg/CMakeFiles/goose_crypto_native.dir/native/ranges.c.o",
+        "-MF",
+        "pkg/CMakeFiles/goose_crypto_native.dir/native/ranges.c.o.d",
+        "-o",
+        "pkg/CMakeFiles/goose_crypto_native.dir/native/ranges.c.o",
+        "-c",
+        "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/native/ranges.c",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-I/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/include",
+        "-O3",
+        "-DNDEBUG",
+        "-fPIE",
+        "-MD",
+        "-MT",
+        "CMakeFiles/goose_linkprobe.dir/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/goose_linkprobe.c.o",
+        "-MF",
+        "CMakeFiles/goose_linkprobe.dir/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/goose_linkprobe.c.o.d",
+        "-o",
+        "CMakeFiles/goose_linkprobe.dir/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/goose_linkprobe.c.o",
+        "-c",
+        "/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/goose_linkprobe.c",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-O3",
+        "-DNDEBUG",
+        "-Wl,--dependency-file=CMakeFiles/goose_linkprobe.dir/link.d",
+        "CMakeFiles/goose_linkprobe.dir/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/goose_linkprobe.c.o",
+        "-o",
+        "goose_linkprobe",
+        "pkg/libgoose_crypto_native.a",
+        "/usr/lib/libsodium.so",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-O2",
+        "-c",
+        "/home/arobin/.goose/build/runtime/3025e5810379/gcc-20260810-828d4d1f-release/goose_runtime.c",
+        "-o",
+        "/home/arobin/.goose/build/runtime/3025e5810379/gcc-20260810-828d4d1f-release/goose_runtime.tmp.o",
+        "-O2",
+        "-UNDEBUG"
+      ],
+      [
+        "/usr/bin/gcc",
+        "-O2",
+        "/home/arobin/.goose/build/prog/bench-4786621d/bench.c",
+        "/home/arobin/.goose/build/runtime/3025e5810379/gcc-20260810-828d4d1f-release/goose_runtime.o",
+        "-o",
+        "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/bench/public",
+        "@/home/arobin/.goose/build/pkg/local/6c7cd1ee/gcc-20260810-828d4d1f/link-cc.rsp",
+        "-lm",
+        "-pthread",
+        "-ldl",
+        "-O2",
+        "-UNDEBUG"
+      ]
+    ],
+    "public_compiler_wrapper": "#!/usr/bin/env python3\nimport json, os, sys\ncompiler = '/usr/bin/gcc'\nlog = '/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/bench/cc-gh2viwf1/commands.jsonl'\nargs = sys.argv[1:]\nprobe = any(a in args for a in ('-v', '--version', '-dumpversion', '-dumpmachine'))\neffective = [compiler, *args, *([] if probe else ['-O2', '-UNDEBUG'])]\nwith open(log, 'a') as f: f.write(json.dumps(effective) + '\\n')\nos.execv(compiler, effective)\n",
+    "build_environment": {
+      "CC": null,
+      "CFLAGS": null,
+      "CPPFLAGS": null,
+      "LDFLAGS": null,
+      "CMAKE_GENERATOR": null
+    },
+    "public_linkage": "\tlinux-vdso.so.1 (0x00007131e7d9f000)\n\tlibsodium.so.26 => /usr/lib/libsodium.so.26 (0x00007131e7cda000)\n\tlibm.so.6 => /usr/lib/libm.so.6 (0x00007131e7ba3000)\n\tlibc.so.6 => /usr/lib/libc.so.6 (0x00007131e7800000)\n\t/lib64/ld-linux-x86-64.so.2 => /usr/lib64/ld-linux-x86-64.so.2 (0x00007131e7da1000)\n"
+  },
+  "machine": {
+    "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+    "machine": "x86_64",
+    "cpu_models": [
+      "Intel(R) Core(TM) Ultra 7 258V"
+    ],
+    "logical_cpus": 8,
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "binaries": {
+    "goose": {
+      "path": "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/bench/public",
+      "sha256": "d81aaed93575d44901dc9ec5ebaaa0e7a333165ea814d94b43ceb2a6f4b3346d"
+    },
+    "direct": {
+      "path": "/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/bench/direct",
+      "sha256": "a1123233aaf4b0762d21f78b535a78a36098e16c32d6a8fd15884f81c39dcd52"
+    }
+  },
+  "fixture_pattern": "message[i] = i % 251; Ed25519 RFC8032 section 7.1 test 1, empty message; invalid signature flips bit 0; short signature 63 bytes",
+  "warmups": [
+    {
+      "implementation": "goose",
+      "iterations": 100,
+      "stdout": "sha256 0 0 100 46414.0 13862\nsha256 32 0 100 53766.0 12052\nsha256 64 0 100 124265.0 13501\nsha256 1024 0 100 674297.0 12535\nsha256 65536 0 100 40299601.0 12213\nsha256 1024 1 100 3579688.0 12535\nsha256 65536 64 100 44987246.0 12213\nsha256 65536 4096 100 39646233.0 12213\nhex-encode 32 0 100 6705.0 5881\nhex-decode 64 0 100 19216.0 1494\nhex-encode 1024 0 100 114537.0 5917\nhex-decode 2048 0 100 545782.0 4950\ned25519-valid 0 64 100 11155414.0 100\ned25519-invalid 0 64 100 10787448.0 200\ned25519-length 0 63 100 219.0 200\n"
+    },
+    {
+      "implementation": "direct",
+      "iterations": 100,
+      "stdout": "sha256 0 0 100 42212 13862\nsha256 32 0 100 45450 12052\nsha256 64 0 100 78862 13501\nsha256 1024 0 100 632992 12535\nsha256 65536 0 100 41035875 12213\nsha256 1024 1 100 1345331 12535\nsha256 65536 64 100 43418082 12213\nsha256 65536 4096 100 40686894 12213\ned25519-valid 0 64 100 10849536 100\ned25519-invalid 0 64 100 10498618 200\n"
+    }
+  ],
+  "samples": [
+    {
+      "sample": 0,
+      "implementation": "goose",
+      "stdout": "sha256 0 0 1000 481603.0 137486\nsha256 32 0 1000 510153.0 121647\nsha256 64 0 1000 1039351.0 132090\nsha256 1024 0 1000 7421064.0 125663\nsha256 65536 0 1000 402661434.0 123613\nsha256 1024 1 1000 35058089.0 125663\nsha256 65536 64 1000 450454435.0 123613\nsha256 65536 4096 1000 396472595.0 123613\nhex-encode 32 0 1000 62268.0 59224\nhex-decode 64 0 1000 184362.0 15404\nhex-encode 1024 0 1000 1157285.0 69430\nhex-decode 2048 0 1000 5158328.0 124506\ned25519-valid 0 64 1000 109336003.0 1000\ned25519-invalid 0 64 1000 108363225.0 2000\ned25519-length 0 63 1000 564.0 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 481603.0,
+          "checksum": 137486,
+          "ns_per_call": 481.603
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 510153.0,
+          "checksum": 121647,
+          "ns_per_call": 510.153
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1039351.0,
+          "checksum": 132090,
+          "ns_per_call": 1039.351
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 7421064.0,
+          "checksum": 125663,
+          "ns_per_call": 7421.064
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 402661434.0,
+          "checksum": 123613,
+          "ns_per_call": 402661.434
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 35058089.0,
+          "checksum": 125663,
+          "ns_per_call": 35058.089
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 450454435.0,
+          "checksum": 123613,
+          "ns_per_call": 450454.435
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 396472595.0,
+          "checksum": 123613,
+          "ns_per_call": 396472.595
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 62268.0,
+          "checksum": 59224,
+          "ns_per_call": 62.268
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 184362.0,
+          "checksum": 15404,
+          "ns_per_call": 184.362
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1157285.0,
+          "checksum": 69430,
+          "ns_per_call": 1157.285
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 2048,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 5158328.0,
+          "checksum": 124506,
+          "ns_per_call": 5158.328
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 109336003.0,
+          "checksum": 1000,
+          "ns_per_call": 109336.003
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 108363225.0,
+          "checksum": 2000,
+          "ns_per_call": 108363.225
+        },
+        {
+          "fixture": "ed25519-length",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 63,
+          "iterations": 1000,
+          "elapsed_ns": 564.0,
+          "checksum": 2000,
+          "ns_per_call": 0.564
+        }
+      ]
+    },
+    {
+      "sample": 0,
+      "implementation": "direct",
+      "stdout": "sha256 0 0 1000 446220 137486\nsha256 32 0 1000 482506 121647\nsha256 64 0 1000 916629 132090\nsha256 1024 0 1000 7318469 125663\nsha256 65536 0 1000 403273266 123613\nsha256 1024 1 1000 13217750 125663\nsha256 65536 64 1000 434499757 123613\nsha256 65536 4096 1000 403321252 123613\ned25519-valid 0 64 1000 132676554 1000\ned25519-invalid 0 64 1000 140414668 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 446220.0,
+          "checksum": 137486,
+          "ns_per_call": 446.22
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 482506.0,
+          "checksum": 121647,
+          "ns_per_call": 482.506
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 916629.0,
+          "checksum": 132090,
+          "ns_per_call": 916.629
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 7318469.0,
+          "checksum": 125663,
+          "ns_per_call": 7318.469
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 403273266.0,
+          "checksum": 123613,
+          "ns_per_call": 403273.266
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 13217750.0,
+          "checksum": 125663,
+          "ns_per_call": 13217.75
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 434499757.0,
+          "checksum": 123613,
+          "ns_per_call": 434499.757
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 403321252.0,
+          "checksum": 123613,
+          "ns_per_call": 403321.252
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 132676554.0,
+          "checksum": 1000,
+          "ns_per_call": 132676.554
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 140414668.0,
+          "checksum": 2000,
+          "ns_per_call": 140414.668
+        }
+      ]
+    },
+    {
+      "sample": 1,
+      "implementation": "direct",
+      "stdout": "sha256 0 0 1000 476825 137486\nsha256 32 0 1000 517039 121647\nsha256 64 0 1000 983265 132090\nsha256 1024 0 1000 7730774 125663\nsha256 65536 0 1000 419543726 123613\nsha256 1024 1 1000 13177671 125663\nsha256 65536 64 1000 447641036 123613\nsha256 65536 4096 1000 399889786 123613\ned25519-valid 0 64 1000 107143748 1000\ned25519-invalid 0 64 1000 108915601 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 476825.0,
+          "checksum": 137486,
+          "ns_per_call": 476.825
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 517039.0,
+          "checksum": 121647,
+          "ns_per_call": 517.039
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 983265.0,
+          "checksum": 132090,
+          "ns_per_call": 983.265
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 7730774.0,
+          "checksum": 125663,
+          "ns_per_call": 7730.774
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 419543726.0,
+          "checksum": 123613,
+          "ns_per_call": 419543.726
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 13177671.0,
+          "checksum": 125663,
+          "ns_per_call": 13177.671
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 447641036.0,
+          "checksum": 123613,
+          "ns_per_call": 447641.036
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 399889786.0,
+          "checksum": 123613,
+          "ns_per_call": 399889.786
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 107143748.0,
+          "checksum": 1000,
+          "ns_per_call": 107143.748
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 108915601.0,
+          "checksum": 2000,
+          "ns_per_call": 108915.601
+        }
+      ]
+    },
+    {
+      "sample": 1,
+      "implementation": "goose",
+      "stdout": "sha256 0 0 1000 543603.0 137486\nsha256 32 0 1000 535057.0 121647\nsha256 64 0 1000 1154005.0 132090\nsha256 1024 0 1000 8479065.0 125663\nsha256 65536 0 1000 407490359.0 123613\nsha256 1024 1 1000 36271008.0 125663\nsha256 65536 64 1000 450331256.0 123613\nsha256 65536 4096 1000 415949912.0 123613\nhex-encode 32 0 1000 61773.0 59224\nhex-decode 64 0 1000 249606.0 15404\nhex-encode 1024 0 1000 1157603.0 69430\nhex-decode 2048 0 1000 5666557.0 124506\ned25519-valid 0 64 1000 141099859.0 1000\ned25519-invalid 0 64 1000 135986814.0 2000\ned25519-length 0 63 1000 573.0 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 543603.0,
+          "checksum": 137486,
+          "ns_per_call": 543.603
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 535057.0,
+          "checksum": 121647,
+          "ns_per_call": 535.057
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1154005.0,
+          "checksum": 132090,
+          "ns_per_call": 1154.005
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 8479065.0,
+          "checksum": 125663,
+          "ns_per_call": 8479.065
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 407490359.0,
+          "checksum": 123613,
+          "ns_per_call": 407490.359
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 36271008.0,
+          "checksum": 125663,
+          "ns_per_call": 36271.008
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 450331256.0,
+          "checksum": 123613,
+          "ns_per_call": 450331.256
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 415949912.0,
+          "checksum": 123613,
+          "ns_per_call": 415949.912
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 61773.0,
+          "checksum": 59224,
+          "ns_per_call": 61.773
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 249606.0,
+          "checksum": 15404,
+          "ns_per_call": 249.606
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1157603.0,
+          "checksum": 69430,
+          "ns_per_call": 1157.603
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 2048,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 5666557.0,
+          "checksum": 124506,
+          "ns_per_call": 5666.557
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 141099859.0,
+          "checksum": 1000,
+          "ns_per_call": 141099.859
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 135986814.0,
+          "checksum": 2000,
+          "ns_per_call": 135986.814
+        },
+        {
+          "fixture": "ed25519-length",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 63,
+          "iterations": 1000,
+          "elapsed_ns": 573.0,
+          "checksum": 2000,
+          "ns_per_call": 0.573
+        }
+      ]
+    },
+    {
+      "sample": 2,
+      "implementation": "goose",
+      "stdout": "sha256 0 0 1000 428808.0 137486\nsha256 32 0 1000 426877.0 121647\nsha256 64 0 1000 846637.0 132090\nsha256 1024 0 1000 6895394.0 125663\nsha256 65536 0 1000 469532046.0 123613\nsha256 1024 1 1000 36698781.0 125663\nsha256 65536 64 1000 519325423.0 123613\nsha256 65536 4096 1000 441007351.0 123613\nhex-encode 32 0 1000 53958.0 59224\nhex-decode 64 0 1000 176495.0 15404\nhex-encode 1024 0 1000 1225564.0 69430\nhex-decode 2048 0 1000 5625091.0 124506\ned25519-valid 0 64 1000 117410230.0 1000\ned25519-invalid 0 64 1000 168794305.0 2000\ned25519-length 0 63 1000 615.0 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 428808.0,
+          "checksum": 137486,
+          "ns_per_call": 428.808
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 426877.0,
+          "checksum": 121647,
+          "ns_per_call": 426.877
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 846637.0,
+          "checksum": 132090,
+          "ns_per_call": 846.637
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 6895394.0,
+          "checksum": 125663,
+          "ns_per_call": 6895.394
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 469532046.0,
+          "checksum": 123613,
+          "ns_per_call": 469532.046
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 36698781.0,
+          "checksum": 125663,
+          "ns_per_call": 36698.781
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 519325423.0,
+          "checksum": 123613,
+          "ns_per_call": 519325.423
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 441007351.0,
+          "checksum": 123613,
+          "ns_per_call": 441007.351
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 53958.0,
+          "checksum": 59224,
+          "ns_per_call": 53.958
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 176495.0,
+          "checksum": 15404,
+          "ns_per_call": 176.495
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1225564.0,
+          "checksum": 69430,
+          "ns_per_call": 1225.564
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 2048,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 5625091.0,
+          "checksum": 124506,
+          "ns_per_call": 5625.091
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 117410230.0,
+          "checksum": 1000,
+          "ns_per_call": 117410.23
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 168794305.0,
+          "checksum": 2000,
+          "ns_per_call": 168794.305
+        },
+        {
+          "fixture": "ed25519-length",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 63,
+          "iterations": 1000,
+          "elapsed_ns": 615.0,
+          "checksum": 2000,
+          "ns_per_call": 0.615
+        }
+      ]
+    },
+    {
+      "sample": 2,
+      "implementation": "direct",
+      "stdout": "sha256 0 0 1000 3120742 137486\nsha256 32 0 1000 453458 121647\nsha256 64 0 1000 966975 132090\nsha256 1024 0 1000 14420311 125663\nsha256 65536 0 1000 455364772 123613\nsha256 1024 1 1000 12796315 125663\nsha256 65536 64 1000 448114196 123613\nsha256 65536 4096 1000 415166606 123613\ned25519-valid 0 64 1000 136571416 1000\ned25519-invalid 0 64 1000 109453401 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 3120742.0,
+          "checksum": 137486,
+          "ns_per_call": 3120.742
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 453458.0,
+          "checksum": 121647,
+          "ns_per_call": 453.458
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 966975.0,
+          "checksum": 132090,
+          "ns_per_call": 966.975
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 14420311.0,
+          "checksum": 125663,
+          "ns_per_call": 14420.311
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 455364772.0,
+          "checksum": 123613,
+          "ns_per_call": 455364.772
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 12796315.0,
+          "checksum": 125663,
+          "ns_per_call": 12796.315
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 448114196.0,
+          "checksum": 123613,
+          "ns_per_call": 448114.196
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 415166606.0,
+          "checksum": 123613,
+          "ns_per_call": 415166.606
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 136571416.0,
+          "checksum": 1000,
+          "ns_per_call": 136571.416
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 109453401.0,
+          "checksum": 2000,
+          "ns_per_call": 109453.401
+        }
+      ]
+    },
+    {
+      "sample": 3,
+      "implementation": "direct",
+      "stdout": "sha256 0 0 1000 411231 137486\nsha256 32 0 1000 430518 121647\nsha256 64 0 1000 840414 132090\nsha256 1024 0 1000 6741631 125663\nsha256 65536 0 1000 419601079 123613\nsha256 1024 1 1000 12649460 125663\nsha256 65536 64 1000 1471125132 123613\nsha256 65536 4096 1000 820803787 123613\ned25519-valid 0 64 1000 224998624 1000\ned25519-invalid 0 64 1000 213924146 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 411231.0,
+          "checksum": 137486,
+          "ns_per_call": 411.231
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 430518.0,
+          "checksum": 121647,
+          "ns_per_call": 430.518
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 840414.0,
+          "checksum": 132090,
+          "ns_per_call": 840.414
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 6741631.0,
+          "checksum": 125663,
+          "ns_per_call": 6741.631
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 419601079.0,
+          "checksum": 123613,
+          "ns_per_call": 419601.079
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 12649460.0,
+          "checksum": 125663,
+          "ns_per_call": 12649.46
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 1471125132.0,
+          "checksum": 123613,
+          "ns_per_call": 1471125.132
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 820803787.0,
+          "checksum": 123613,
+          "ns_per_call": 820803.787
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 224998624.0,
+          "checksum": 1000,
+          "ns_per_call": 224998.624
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 213924146.0,
+          "checksum": 2000,
+          "ns_per_call": 213924.146
+        }
+      ]
+    },
+    {
+      "sample": 3,
+      "implementation": "goose",
+      "stdout": "sha256 0 0 1000 1872245.0 137486\nsha256 32 0 1000 1063700.0 121647\nsha256 64 0 1000 1448939.0 132090\nsha256 1024 0 1000 12410222.0 125663\nsha256 65536 0 1000 434247612.0 123613\nsha256 1024 1 1000 37452954.0 125663\nsha256 65536 64 1000 715559478.0 123613\nsha256 65536 4096 1000 754934494.0 123613\nhex-encode 32 0 1000 77772.0 59224\nhex-decode 64 0 1000 273275.0 15404\nhex-encode 1024 0 1000 1947134.0 69430\nhex-decode 2048 0 1000 9657982.0 124506\ned25519-valid 0 64 1000 219459423.0 1000\ned25519-invalid 0 64 1000 235164872.0 2000\ned25519-length 0 63 1000 1394.0 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1872245.0,
+          "checksum": 137486,
+          "ns_per_call": 1872.245
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1063700.0,
+          "checksum": 121647,
+          "ns_per_call": 1063.7
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1448939.0,
+          "checksum": 132090,
+          "ns_per_call": 1448.939
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 12410222.0,
+          "checksum": 125663,
+          "ns_per_call": 12410.222
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 434247612.0,
+          "checksum": 123613,
+          "ns_per_call": 434247.612
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 37452954.0,
+          "checksum": 125663,
+          "ns_per_call": 37452.954
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 715559478.0,
+          "checksum": 123613,
+          "ns_per_call": 715559.478
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 754934494.0,
+          "checksum": 123613,
+          "ns_per_call": 754934.494
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 77772.0,
+          "checksum": 59224,
+          "ns_per_call": 77.772
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 273275.0,
+          "checksum": 15404,
+          "ns_per_call": 273.275
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1947134.0,
+          "checksum": 69430,
+          "ns_per_call": 1947.134
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 2048,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 9657982.0,
+          "checksum": 124506,
+          "ns_per_call": 9657.982
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 219459423.0,
+          "checksum": 1000,
+          "ns_per_call": 219459.423
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 235164872.0,
+          "checksum": 2000,
+          "ns_per_call": 235164.872
+        },
+        {
+          "fixture": "ed25519-length",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 63,
+          "iterations": 1000,
+          "elapsed_ns": 1394.0,
+          "checksum": 2000,
+          "ns_per_call": 1.394
+        }
+      ]
+    },
+    {
+      "sample": 4,
+      "implementation": "goose",
+      "stdout": "sha256 0 0 1000 780121.0 137486\nsha256 32 0 1000 6737798.0 121647\nsha256 64 0 1000 1584054.0 132090\nsha256 1024 0 1000 64516858.0 125663\nsha256 65536 0 1000 1138646526.0 123613\nsha256 1024 1 1000 34250527.0 125663\nsha256 65536 64 1000 500467726.0 123613\nsha256 65536 4096 1000 473606429.0 123613\nhex-encode 32 0 1000 62095.0 59224\nhex-decode 64 0 1000 283099.0 15404\nhex-encode 1024 0 1000 1150318.0 69430\nhex-decode 2048 0 1000 5599554.0 124506\ned25519-valid 0 64 1000 138946775.0 1000\ned25519-invalid 0 64 1000 110474626.0 2000\ned25519-length 0 63 1000 634.0 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 780121.0,
+          "checksum": 137486,
+          "ns_per_call": 780.121
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 6737798.0,
+          "checksum": 121647,
+          "ns_per_call": 6737.798
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1584054.0,
+          "checksum": 132090,
+          "ns_per_call": 1584.054
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 64516858.0,
+          "checksum": 125663,
+          "ns_per_call": 64516.858
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1138646526.0,
+          "checksum": 123613,
+          "ns_per_call": 1138646.526
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 34250527.0,
+          "checksum": 125663,
+          "ns_per_call": 34250.527
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 500467726.0,
+          "checksum": 123613,
+          "ns_per_call": 500467.726
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 473606429.0,
+          "checksum": 123613,
+          "ns_per_call": 473606.429
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 62095.0,
+          "checksum": 59224,
+          "ns_per_call": 62.095
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 283099.0,
+          "checksum": 15404,
+          "ns_per_call": 283.099
+        },
+        {
+          "fixture": "hex-encode",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1150318.0,
+          "checksum": 69430,
+          "ns_per_call": 1150.318
+        },
+        {
+          "fixture": "hex-decode",
+          "bytes": 2048,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 5599554.0,
+          "checksum": 124506,
+          "ns_per_call": 5599.554
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 138946775.0,
+          "checksum": 1000,
+          "ns_per_call": 138946.775
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 110474626.0,
+          "checksum": 2000,
+          "ns_per_call": 110474.626
+        },
+        {
+          "fixture": "ed25519-length",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 63,
+          "iterations": 1000,
+          "elapsed_ns": 634.0,
+          "checksum": 2000,
+          "ns_per_call": 0.634
+        }
+      ]
+    },
+    {
+      "sample": 4,
+      "implementation": "direct",
+      "stdout": "sha256 0 0 1000 525306 137486\nsha256 32 0 1000 525192 121647\nsha256 64 0 1000 1055349 132090\nsha256 1024 0 1000 8351456 125663\nsha256 65536 0 1000 470245532 123613\nsha256 1024 1 1000 15291084 125663\nsha256 65536 64 1000 475743061 123613\nsha256 65536 4096 1000 411415693 123613\ned25519-valid 0 64 1000 110572679 1000\ned25519-invalid 0 64 1000 107489869 2000\n",
+      "rows": [
+        {
+          "fixture": "sha256",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 525306.0,
+          "checksum": 137486,
+          "ns_per_call": 525.306
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 32,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 525192.0,
+          "checksum": 121647,
+          "ns_per_call": 525.192
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 64,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 1055349.0,
+          "checksum": 132090,
+          "ns_per_call": 1055.349
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 8351456.0,
+          "checksum": 125663,
+          "ns_per_call": 8351.456
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 0,
+          "iterations": 1000,
+          "elapsed_ns": 470245532.0,
+          "checksum": 123613,
+          "ns_per_call": 470245.532
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 1024,
+          "chunk_or_signature_bytes": 1,
+          "iterations": 1000,
+          "elapsed_ns": 15291084.0,
+          "checksum": 125663,
+          "ns_per_call": 15291.084
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 475743061.0,
+          "checksum": 123613,
+          "ns_per_call": 475743.061
+        },
+        {
+          "fixture": "sha256",
+          "bytes": 65536,
+          "chunk_or_signature_bytes": 4096,
+          "iterations": 1000,
+          "elapsed_ns": 411415693.0,
+          "checksum": 123613,
+          "ns_per_call": 411415.693
+        },
+        {
+          "fixture": "ed25519-valid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 110572679.0,
+          "checksum": 1000,
+          "ns_per_call": 110572.679
+        },
+        {
+          "fixture": "ed25519-invalid",
+          "bytes": 0,
+          "chunk_or_signature_bytes": 64,
+          "iterations": 1000,
+          "elapsed_ns": 107489869.0,
+          "checksum": 2000,
+          "ns_per_call": 107489.869
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "CLOCK_MONOTONIC via Goose os::clock_ns and C clock_gettime; total batch nanoseconds",
+    "Outputs checked and consumed in timing loops; fixed buffers allocated outside timing",
+    "SHA incremental measurements include init, all updates and finish per message",
+    "No direct malformed-length baseline: invariant C checks can be hoisted",
+    "No direct hex baseline; no claimed universal ranking; no timing thresholds"
+  ]
+}

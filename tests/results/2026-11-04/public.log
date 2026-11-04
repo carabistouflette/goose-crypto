@@ -1,0 +1,68 @@
+make: Entering directory '/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto'
+python3 scripts/native-manifest.py
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" format crypto.goose tests examples bench
+python3 scripts/native-manifest.py --check
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" format --check crypto.goose tests examples bench
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" check tests/api.goose
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" check examples/hash.goose
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" check tests/oracle.goose
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" check tests/signatures.goose
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" check bench/bench.goose
+python3 -m py_compile scripts/*.py tests/*.py bench/*.py
+git diff --check
+mkdir -p .build
+python3 scripts/native-manifest.py --check
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" run tests/api.goose
+building the package crypto's C with CMake
+crypto public interface regressions passed
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" run tests/api.goose --debug
+building the package crypto's C with CMake
+crypto public interface regressions passed
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" build tests/api.goose --cc "cc" -O2 -o .build/api
+building the package crypto's C with CMake
+built .build/api
+./.build/api
+crypto public interface regressions passed
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" build tests/api.goose --debug --standalone --cc "cc" -o .build/api-debug
+building the package crypto's C with CMake
+built .build/api-debug
+./.build/api-debug
+crypto public interface regressions passed
+"/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose" run examples/hash.goose
+building the package crypto's C with CMake
+ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+python3 tests/oracle.py "/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose"
+building the package crypto's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/oracle-native
+building the package crypto's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/oracle-debug
+jit: 1159 hashlib differential cases passed
+native: 1159 hashlib differential cases passed
+debug: 1159 hashlib differential cases passed
+python3 tests/signatures.py "/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose"
+building the package crypto's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/signatures-native
+building the package crypto's C with CMake
+built /home/arobin/Work/Projects/goose-libs/libraries/goose-crypto/.build/signatures-debug
+Ed25519 oracle: cryptography 50.0.2; OpenSSL 3.6.5 29 Sep 2026
+Fixture corpus: 400 cases, sha256 68592b17ec5bdd9e73b229a4d991ffeaf2e5324bf65c489b3aa66e40e4f4e946
+jit: 400 independent Ed25519 differential cases passed
+native: 400 independent Ed25519 differential cases passed
+debug: 400 independent Ed25519 differential cases passed
+python3 tests/ownership.py "/home/arobin/Work/Projects/goose-libs/libraries/goose-http/.toolchain/goose/build/goose"
+building the package crypto's C with CMake
+caller storage reuse consumer passed; fixed-slice alias rejection is covered by api.goose
+make native failures
+make[1]: Entering directory '/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto'
+mkdir -p .build
+cc -std=c11 -Wall -Wextra -Werror -O2 -pthread tests/native.c native/crypto.c native/ranges.c -lsodium -o .build/native
+./.build/native
+native crypto: known vectors, boundaries, lifecycle, aliases, corruption, signatures, guards passed
+mkdir -p .build
+cc -std=c11 -Wall -Wextra -Werror -O2 -pthread tests/failures.c native/crypto.c -lsodium -Wl,--wrap=sodium_init -Wl,--wrap=crypto_hash_sha256 -Wl,--wrap=crypto_hash_sha256_init -Wl,--wrap=crypto_hash_sha256_update -Wl,--wrap=crypto_hash_sha256_final -o .build/failures
+./.build/failures
+native backend failures: atomic state/output and initialization behavior passed
+./.build/failures init
+native backend failures: atomic state/output and initialization behavior passed
+make[1]: Leaving directory '/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto'
+make: Leaving directory '/home/arobin/Work/Projects/goose-libs/libraries/goose-crypto'
