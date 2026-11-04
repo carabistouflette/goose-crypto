@@ -19,6 +19,8 @@ import signal
 import time
 import re
 import platform
+import socket
+import struct
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
@@ -223,7 +225,13 @@ class Handler(http.server.BaseHTTPRequestHandler):
             remaining = config["size"]
             sent = 0
             while remaining:
+                if config.get("eof_barrier") and remaining == 1:
+                    self.server.body_waiting.set()
+                    if not self.server.body_gate.wait(timeout=30):
+                        raise RuntimeError("fixture EOF barrier was not released")
                 n = min(remaining, config["chunk"])
+                if config.get("eof_barrier") and remaining > 1:
+                    n = min(n, remaining - 1)
                 start = sent % len(PATTERN)
                 piece = PATTERN[start:start + n]
                 if len(piece) < n:
@@ -235,6 +243,13 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 if config["delay"]:
                     time.sleep(config["delay"])
             if config["reset"]:
+                # Wait for the consumer to write every sent byte before aborting,
+                # so the signed digest really matches the delivered prefix.
+                self.server.reset_waiting.set()
+                if not self.server.reset_gate.wait(timeout=30):
+                    raise RuntimeError("fixture reset barrier was not released")
+                self.connection.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, struct.pack("ii", 1, 0))
+                self.connection.close()
                 self.close_connection = True
         except (BrokenPipeError, ConnectionResetError, ssl.SSLError):
             pass
@@ -251,6 +266,53 @@ def record(result, expected_stage, expected_publication, expected_code):
     assert fields["stage"] == expected_stage and fields["publication"] == expected_publication, fields
     assert b"AddressSanitizer" not in data and b"runtime error:" not in data, data
     return fields
+
+
+def source_snapshot(repo: Path):
+    paths = subprocess.check_output(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"], cwd=repo).split(b"\0")
+    files = {}
+    for raw in sorted(set(paths) - {b""}):
+        path = repo / os.fsdecode(raw)
+        data = os.fsencode(os.readlink(path)) if path.is_symlink() else path.read_bytes() if path.exists() else b"<deleted>"
+        files[os.fsdecode(raw)] = hashlib.sha256(data).hexdigest()
+    return {"head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
+            "status": subprocess.check_output(["git", "status", "--short", "--untracked-files=all"], cwd=repo, text=True),
+            "files": files}
+
+
+def frozen_inputs(goose: Path, cc: str):
+    found = shutil.which(cc)
+    if found is None:
+        raise RuntimeError(f"compiler not found: {cc}")
+    compiler = str(Path(found).resolve())
+    version = subprocess.check_output([compiler, "--version"], text=True)
+    cxx = shutil.which("clang++" if "clang" in version.lower() else "g++")
+    if cxx is None:
+        raise RuntimeError("C++ compiler not found")
+    tools = {}
+    for name, path in [("goose", str(goose.resolve())), ("cc", compiler), ("cxx", cxx)]:
+        tools[name] = {"path": path, "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+                       "version": subprocess.check_output([path, "--version"], text=True).strip()}
+    pin = (ROOT / "GOOSE_REVISION").read_text().strip()
+    advertised = re.search(r"\bgoose ([0-9a-f]{7,40})\b", tools["goose"]["version"])
+    if advertised is None or not pin.startswith(advertised.group(1)):
+        raise RuntimeError("Goose binary does not advertise the pinned revision")
+    dependencies = {}
+    for name, source in re.findall(r'import\s+(\w+)\s+from\s+"([^"]+)"', (HERE / "main.goose").read_text()):
+        item = {"source": source}
+        if source.startswith((".", "/")):
+            resolved = (HERE / source).resolve()
+            item["resolved_path"] = str(resolved)
+            # Core/local signal sources are covered by the complete root snapshot.
+            if resolved != ROOT and not resolved.is_relative_to(ROOT):
+                item["development_snapshot"] = source_snapshot(resolved)
+        elif not re.search(r"@[0-9a-f]{40}$", source):
+            raise RuntimeError(f"Dependency {name} is not pinned to a full commit")
+        dependencies[name] = item
+    return {"source": source_snapshot(ROOT), "tools": tools, "goose_revision": pin,
+            "dependencies": dependencies,
+            "backends": {name: subprocess.check_output(["pkg-config", "--modversion", name], text=True).strip()
+                         for name in ("libsodium", "libcurl")}}
 
 
 def child_rss_kib(pid):
@@ -271,7 +333,10 @@ def main():
     parser.add_argument("--sanitize", action="store_true")
     parser.add_argument("--output", type=Path, default=ROOT / ".build/download-results.json")
     args = parser.parse_args()
+    before = frozen_inputs(args.goose, args.cc)
     fixture, production, recovery, build_folder = build(args.goose.resolve(), args.cc, args.sanitize)
+    binaries = {name: path for name, path in (("fixture", fixture), ("production", production), ("recovery", recovery))}
+    binary_hashes = {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in binaries.items()}
     signing = ed25519.Ed25519PrivateKey.from_private_bytes(hashlib.sha256(b"goose streaming download fixture").digest())
     public_key = signing.public_key().public_bytes(serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
     checked = []
@@ -283,7 +348,8 @@ def main():
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         context.load_cert_chain(ca, key)
         server.socket = context.wrap_socket(server.socket, server_side=True)
-        server.request_started, server.request_done, server.header_gate = [threading.Event() for _ in range(3)]
+        (server.request_started, server.request_done, server.header_gate, server.body_waiting,
+         server.body_gate, server.reset_waiting, server.reset_gate) = [threading.Event() for _ in range(7)]
         server.requests = []
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
@@ -299,7 +365,7 @@ def main():
                  returncode=0, requests=1, staging=False, final="payload", existing_stage=False,
                  existing_final=False, residue=False, binary=fixture, signal_number=None,
                  signal_at="body", private_mode=0o700, sample_memory=False, cli_stage=None, cli_final=None,
-                 cleanup_http=False, cleanup_root=False, cleanup_context=False):
+                 cleanup_http=False, cleanup_root=False, cleanup_context=False, eof_barrier=False):
             parent = folder / name
             parent.mkdir(mode=private_mode)
             os.chmod(parent, private_mode)
@@ -314,11 +380,14 @@ def main():
                 raw = json.dumps({"url": url, "sha256": payload_hash(size)}, separators=(",", ":")).encode()
             metadata.write_bytes(raw)
             signature = signing.sign(raw).hex() if signature is None else signature
-            server.request_started.clear(); server.request_done.clear(); server.header_gate.clear()
+            for event in (server.request_started, server.request_done, server.header_gate,
+                          server.body_waiting, server.body_gate, server.reset_waiting, server.reset_gate):
+                event.clear()
             server.config = {"size": size, "advertised": size if advertised is None else advertised,
                              "code": code, "chunk": min(chunk, len(PATTERN)), "delay": delay,
                              "padding": padding, "reset": reset,
-                             "header_wait": signal_number is not None and signal_at == "headers"}
+                             "header_wait": signal_number is not None and signal_at == "headers",
+                             "eof_barrier": eof_barrier}
             before = len(server.requests)
             env = dict(env_base, GOOSE_DOWNLOAD_FAULT=fault, GOOSE_DOWNLOAD_STAGING=str(stage_path),
                        GOOSE_DOWNLOAD_STAGING_LEAF=staging_leaf, GOOSE_DOWNLOAD_FINAL=str(final_path))
@@ -326,13 +395,21 @@ def main():
                        staging_leaf if cli_stage is None else cli_stage,
                        final_leaf if cli_final is None else cli_final, str(size if cap is None else cap)]
             peak_rss, signals_sent = 0, False
+            eof_released, reset_released = False, False
             start = time.monotonic()
             child = subprocess.Popen(command, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             try:
                 while child.poll() is None:
                     assert time.monotonic() - start < 40, (name, "consumer did not terminate")
-                    if final is None:
+                    if final is None or (eof_barrier and not eof_released):
                         assert not final_path.exists(), (name, "premature final entry")
+                    if eof_barrier and server.body_waiting.is_set() and stage_path.exists() and stage_path.stat().st_size == size - 1:
+                        assert not final_path.exists(), (name, "published before final byte")
+                        eof_released = True
+                        server.body_gate.set()
+                    if reset and server.reset_waiting.is_set() and stage_path.exists() and stage_path.stat().st_size == size:
+                        reset_released = True
+                        server.reset_gate.set()
                     if existing_final:
                         assert final_path.read_bytes() == b"existing final", (name, "existing final changed")
                     if sample_memory:
@@ -349,6 +426,12 @@ def main():
                 raise
             finally:
                 server.header_gate.set()
+                server.body_gate.set()
+                server.reset_gate.set()
+            if eof_barrier:
+                assert eof_released, (name, "EOF barrier did not observe all prefix bytes")
+            if reset:
+                assert reset_released, (name, "reset did not follow delivery of signed prefix")
             result = subprocess.CompletedProcess(command, child.returncode, stdout, stderr)
             fields = record(result, stage, publication, returncode)
             if signal_number is not None:
@@ -382,6 +465,7 @@ def main():
 
         try:
             case("success-large", size=8 * 1024 * 1024, sample_memory=True)
+            case("no-publication-before-eof", size=8 * 1024 * 1024, eof_barrier=True)
             case("success-empty", size=0, cap=0)
             case("success-tiny-chunks", size=4097, chunk=1)
             case("tampered-metadata", signature=signing.sign(b"not the metadata").hex(), stage="Signature",
@@ -428,9 +512,9 @@ def main():
             case("header-cap", padding=17000, stage="HttpRead", publication="NotAttempted", returncode=1, final=None)
             # Metadata signs the exact bytes actually sent. Matching their digest
             # must not hide a failed terminal transport/Content-Length check.
-            case("truncated-matching-digest", advertised=262145, stage="HttpRead", publication="NotAttempted",
+            case("truncated-matching-digest", advertised=262145, cap=524288, stage="HttpRead", publication="NotAttempted",
                  returncode=1, final=None)
-            case("reset-matching-digest", advertised=524288, reset=True, stage="HttpRead",
+            case("reset-matching-digest", advertised=524288, cap=1048576, reset=True, stage="HttpRead",
                  publication="NotAttempted", returncode=1, final=None)
             case("http-status", code=403, stage="HttpStatus", publication="NotAttempted", returncode=1, final=None)
             case("redirect", code=302, stage="HttpStatus", publication="NotAttempted", returncode=1, final=None)
@@ -507,13 +591,18 @@ def main():
             server.shutdown()
             server.server_close()
             thread.join(timeout=5)
-    result = {"source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+    if frozen_inputs(args.goose, args.cc) != before:
+        raise RuntimeError("Source/compiler/backend inputs changed during execution; results rejected")
+    if {name: hashlib.sha256(path.read_bytes()).hexdigest() for name, path in binaries.items()} != binary_hashes:
+        raise RuntimeError("Consumer binary changed during execution; results rejected")
+    transcript = build_folder / "compiler-commands.jsonl"
+    result = {"inputs": before, "source_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
               "source_sha256": {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
                                 for name in ["main.goose", "workflow.goose", "integration.py", "transport.c", "faults.c"]},
               "platform": platform.platform(), "cc": args.cc, "sanitize": args.sanitize,
-              "compiler_commands": str(build_folder / "compiler-commands.jsonl"),
-              "binary_sha256": {name: hashlib.sha256(path.read_bytes()).hexdigest()
-                                for name, path in [("fixture", fixture), ("production", production), ("recovery", recovery)]},
+              "compiler_commands": [json.loads(line) for line in transcript.read_text().splitlines()],
+              "compiler_commands_sha256": hashlib.sha256(transcript.read_bytes()).hexdigest(),
+              "binary_sha256": binary_hashes,
               "cases": checked,
               "notes": ["Real loopback HTTPS only; source fetching during build may use network",
                         "Body bytes generated in fixed 64KiB pieces; no whole-body server allocation",
