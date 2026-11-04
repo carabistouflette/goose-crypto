@@ -20,7 +20,11 @@ Check staging absence under the no-other-writers contract before exclusive
 creation. Failed create/open can leave a new entry: track possible ownership
 from that absence check and attempted creation, not just a valid File token.
 Never truncate, reuse or remove a pre-existing staging entry. Staging and final
-names are distinct strict leaves in the same held parent, with no other writers
+names are distinct canonical lowercase ASCII leaves ([a-z0-9][a-z0-9._-]*,
+no trailing dot, no tilde, at most 255 bytes) in the same held parent. They must
+also be filesystem-distinct under non-aliasing lookup semantics; byte-distinctness
+alone does not prove this on arbitrary filesystems. Exotic aliasing namespaces
+are unsupported. There must be no other writers
 for the workflow's duration. This is an explicit private-directory contract, not
 confinement against a same-UID adversary or a source-inode-pinning rename API.
 
