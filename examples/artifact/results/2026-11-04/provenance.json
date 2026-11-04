@@ -1,0 +1,44 @@
+{
+  "source": "7cd52c6b6385ed80396e26f3608c79c5c7e129fd",
+  "goose_revision": "eadca409f68210893f366e60d0c2f0dc29a339be",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "backends": {
+    "libsodium": "1.0.22",
+    "libcurl": "8.23.0",
+    "libarchive": "3.8.11",
+    "zlib": "1.3.2"
+  },
+  "source_sha256": {
+    "main.goose": "ee6aa027489c5f945d6999422ca5db5216f83fffe3f9ec1283bdf60a6b615b55",
+    "integration.py": "f53d66daf1d458bab33bde16b80b4f940ed5a2da78a2ee033adb58dfac50aff8",
+    "transport.c": "334c46d97f35b4d1377bc71d19b2df5e9910b9e0d286c1db543978e6ac38b0a5",
+    "README.md": "16d165c3fbfce21fd50e782b415ffaad3fb8b48b8c4f83fa86564b5d62f06bae"
+  },
+  "runs": [
+    {
+      "label": "gcc-release",
+      "cases": 22,
+      "log_sha256": "35bb48ceb6746f3c3298fa208a17fb09496afbff9305df4cc266dc48f722f44a",
+      "commands_sha256": "564b4092f263759cf3882221ae53e6b42a936d1e6c495a914feee6951e36008d",
+      "fixture_binary_sha256": "3e15ca432ad412301bf6184ea35aae349f08143a6d1f8444da9bbd7dc5536b4c",
+      "production_binary_sha256": "80ec8da8a58e9f4121deac176c1e81a8c934b8506f6dabfe9295e0114f7a84b9"
+    },
+    {
+      "label": "gcc-sanitize",
+      "cases": 22,
+      "log_sha256": "1ff1f401aa500c108fcc09fbf7dcd2a097faba5fc22621d4c66251cc8121f077",
+      "commands_sha256": "64b416a70ec55935c5121191f443b594ba137d491faf12141a9fc4edcf125ad7",
+      "fixture_binary_sha256": "8a9ed9e58feca42889002ebc3d95bd7b7f93392f0e97ed560b5eb17d5bc21e67",
+      "production_binary_sha256": "80ec8da8a58e9f4121deac176c1e81a8c934b8506f6dabfe9295e0114f7a84b9"
+    },
+    {
+      "label": "clang-sanitize",
+      "cases": 22,
+      "log_sha256": "f428111112d992203d6b25ede41bb8bac3f978004d208c5dd0af6b378e120883",
+      "commands_sha256": "974fa220d677d440cc7eaf565b3ca0d61890551ecce430fe6a6b264b568b3f26",
+      "fixture_binary_sha256": "ba634501b0ff4f283064b1351ec5cfc6a9c77cab7176ccce5d9413fd073b05b7",
+      "production_binary_sha256": "0eb44067d86ca7eef01a8f4084d75e1d4f7a5806ad8b25f9782264174b4f1efb"
+    }
+  ],
+  "scope": "Fixture generated Goose/runtime and native C/C++ instrumented in sanitizer runs; separate production TLS rejection binary release-built, system backends uninstrumented."
+}
