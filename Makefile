@@ -12,9 +12,11 @@ SODIUM_FLAGS = $(shell pkg-config --cflags --libs libsodium)
 setup:
 	./scripts/setup-goose.sh
 format:
+	python3 examples/download/signals/fingerprint.py
 	python3 scripts/native-manifest.py
 	"$(GOOSE)" format crypto.goose tests examples bench
 check:
+	python3 examples/download/signals/fingerprint.py --check
 	python3 scripts/native-manifest.py --check
 	"$(GOOSE)" format --check crypto.goose tests examples bench
 	"$(GOOSE)" check tests/api.goose
@@ -69,3 +71,20 @@ artifact-test:
 	python3 examples/artifact/integration.py --goose "$(abspath $(GOOSE))" --cc "$(CC)"
 artifact-sanitize:
 	python3 examples/artifact/integration.py --goose "$(abspath $(GOOSE))" --cc "$(SANITIZER_CC)" --sanitize
+
+.PHONY: download-check download-test download-sanitize download-signals
+download-check:
+	python3 examples/download/signals/fingerprint.py --check
+	python3 -m py_compile examples/download/integration.py
+	"$(GOOSE)" check examples/download/main.goose
+download-signals:
+	mkdir -p .build
+	$(CC) $(CFLAGS) examples/download/signals/test.c examples/download/signals/signals.c -Wl,--wrap=sigaction -o .build/download-signals
+	./.build/download-signals
+download-test: download-signals
+	python3 examples/download/integration.py --goose "$(abspath $(GOOSE))" --cc "$(CC)"
+download-sanitize:
+	mkdir -p .build
+	$(SANITIZER_CC) $(CFLAGS) -O1 -g -fno-omit-frame-pointer -fsanitize=address,undefined -no-pie examples/download/signals/test.c examples/download/signals/signals.c -Wl,--wrap=sigaction -o .build/download-signals-sanitize-$(notdir $(SANITIZER_CC))
+	ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ./.build/download-signals-sanitize-$(notdir $(SANITIZER_CC))
+	python3 examples/download/integration.py --goose "$(abspath $(GOOSE))" --cc "$(SANITIZER_CC)" --sanitize
