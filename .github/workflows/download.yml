@@ -1,0 +1,23 @@
+name: Streaming download example
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build python3 python3-cryptography pkg-config libsodium-dev libcurl4-openssl-dev clang
+      - run: make setup
+      - run: make download-check download-test DOWNLOAD_OUTPUT=.build/download-release.json
+      - run: make download-sanitize SANITIZER_CC=gcc DOWNLOAD_OUTPUT=.build/download-gcc-sanitize.json
+      - run: make download-sanitize SANITIZER_CC=clang DOWNLOAD_OUTPUT=.build/download-clang-sanitize.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: streaming-download-results
+          path: .build/download-*.json
+          include-hidden-files: true
+          if-no-files-found: error
