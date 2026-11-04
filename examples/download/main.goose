@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import crypto from "../..";
-// Immutable corrected HTTP candidate; final owner CI/publication handoff pending.
-import http from "carabistouflette/goose-http@0eefb3d2e48051525ed73d6ef18edd95334304e8";
+// Reviewed public streaming source, published by the HTTP owner.
+import http from "carabistouflette/goose-http@aa915a0b21db1129f85e6e339a6f0171bcac0e77";
 import fs from "carabistouflette/goose-fs@cd0bd29c78c435caaebf75bfecd8e3e2083636eb";
 import json_codec from "carabistouflette/goose-json@3fa7b5275399641f8069698b6c097ea66cef7929";
 import signals from "./signals";

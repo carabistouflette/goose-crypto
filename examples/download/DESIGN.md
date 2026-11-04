@@ -45,8 +45,9 @@ Before publication: cancel/transport error/interrupted or truncated transfer/
 byte cap/hash/write/sync/close failure creates/replaces no final entry and attempts cleanup
 of only the exclusively created staging name. Always close HTTP/file/context
 resources and report cleanup errors separately; do not mask the primary error or
-claim cleanup succeeded merely because it was attempted. Staging residue is
-reported with its caller-provided leaf if cleanup fails.
+claim cleanup succeeded merely because it was attempted. Possible staging residue
+is reported separately; the caller already knows its leaf. Fixed diagnostics omit
+untrusted filenames.
 
 Publication: preserve NoReplace and filesystem RenameResult.outcome semantics.
 Applied can coexist with a later sync/close error: report published-with-error,
@@ -76,8 +77,8 @@ Bounded adapter memory must be justified and measured across increasing totals;
 streaming does not imply a hard whole-process RSS cap. Retain raw provenance and
 avoid universal performance claims or timing thresholds in CI.
 
-HTTP interface and published FS pin are being coordinated with their owners;
-consumer implementation must use reviewed published pins, not sibling WIP.
+HTTP and FS owners have published the reviewed immutable sources pinned by
+main.goose. Consumer imports use those public commits.
 
 The last cancellation check before rename is the publication commitment boundary.
 Signals after it cannot promise final absence. Repeated SIGINT/SIGTERM must not
