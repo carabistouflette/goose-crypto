@@ -76,3 +76,23 @@ checks use synthetic count-consistent state; processing exabytes was not tested.
 No Windows/macOS/other-architecture claim. Secure erasure, backend upgrade safety,
 trust policy, key discovery and installation authorization remain outside scope.
 Backend allocation/OS behavior is not an adapter allocation guarantee.
+
+## Public publication checks — 2026-11-04
+
+Published Apache-2.0 source: [carabistouflette/goose-crypto](https://github.com/carabistouflette/goose-crypto).
+Public `main` source `c6774f59f8d5a4e46c247ededd6d9ecdcd5c6502` passed
+[hosted CI](https://github.com/carabistouflette/goose-crypto/actions/runs/41897070185),
+including cold compiler bootstrap, public-interface tests/oracles, GCC/Clang
+native and generated-Goose sanitizer runs, seeded fuzzing and benchmark smoke.
+
+An anonymous HTTPS clone, checked out at the publication-documentation candidate
+`26724a8`, independently passed `make check test` with the matching compiler.
+An external consumer using the README's full `c6774f5` remote import fetched the
+public package and produced the expected SHA-256 of `abc`. Private vulnerability
+reporting is enabled. GitHub recognizes the repository's Apache-2.0 license.
+
+Publication review inspected the complete tracked archive (42 files at the
+candidate), documented Ubuntu dependency/API compatibility and checked action
+pins. No generated compiler state or credentials were found. Release-candidate
+checks are separate from the immutable initial-main CI evidence linked above;
+the final release notes identify the exact tested head and release commit.
