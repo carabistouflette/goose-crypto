@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.15)
+project(goose_download_signals LANGUAGES C)
+add_library(goose_download_signals STATIC signals.c)
+set_target_properties(goose_download_signals PROPERTIES POSITION_INDEPENDENT_CODE ON)
+target_compile_features(goose_download_signals PRIVATE c_std_11)
+target_compile_options(goose_download_signals PRIVATE -Wall -Wextra -Werror)
