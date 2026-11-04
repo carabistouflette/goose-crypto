@@ -22,10 +22,10 @@ checkout; a pinned remote import will follow publication. Namespace: `crypto`.
 ## Development
 
 Ubuntu dependencies: Git, CMake >=3.27, Make, pkg-config, C/C++20 toolchain,
-Python >=3.11, libsodium development headers >=1.0.18, Clang for fuzzing.
+Python >=3.11 with cryptography, libsodium development headers >=1.0.18, Clang for fuzzing.
 
 ```sh
-sudo apt-get install build-essential cmake ninja-build pkg-config python3 libsodium-dev clang
+sudo apt-get install build-essential cmake ninja-build pkg-config python3 python3-cryptography libsodium-dev clang
 make setup
 make format check test
 make sanitize public-sanitize SANITIZER_CC=gcc

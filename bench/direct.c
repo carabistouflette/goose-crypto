@@ -78,6 +78,5 @@ int main(int argc, char **argv) {
     verify("ed25519-valid", sig, 64, key, 0, count);
     sig[0] ^= 1;
     verify("ed25519-invalid", sig, 64, key, -1, count);
-    verify("ed25519-length", sig, 63, key, -2, count);
     return 0;
 }

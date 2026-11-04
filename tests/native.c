@@ -204,7 +204,18 @@ static void guards(void) {
     expect_hex(digest, abc_hex);
     CHECK(munmap(region, page * 3) == 0);
 }
+static void ranges(void) {
+    uint8_t buffer[64] = {0};
+    CHECK(gc_disjoint(in(buffer, 32), out(buffer + 32, 32)) == 0);
+    CHECK(gc_disjoint(in(buffer, 33), out(buffer + 32, 32)) == 1);
+    CHECK(gc_disjoint(in(NULL, 0), out(NULL, 0)) == 0);
+    CHECK(gc_disjoint(in(NULL, 1), out(buffer, 1)) == 1);
+    CHECK(gc_disjoint(in(buffer, -1), out(buffer, 1)) == 1);
+    CHECK(gc_disjoint(in((void *)(UINTPTR_MAX - 1), 4), out(buffer, 1)) == 1);
+    CHECK(gc_disjoint(in(buffer, 1), out((void *)(UINTPTR_MAX - 1), 4)) == 1);
+}
 int main(void) {
+    ranges();
     concurrent_initialization(); hashes(); invalid_arguments();
     corrupted_state_and_limit(); signatures(); guards();
     puts("native crypto: known vectors, boundaries, lifecycle, aliases, corruption, signatures, guards passed");

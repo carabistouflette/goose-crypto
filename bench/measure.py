@@ -14,6 +14,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -92,8 +93,19 @@ def main() -> None:
     build = ROOT / ".build/bench"
     build.mkdir(parents=True, exist_ok=True)
     public_binary, direct_binary = build / "public", build / "direct"
+    # A fresh compiler path forces native package rebuilds, retaining exact invocations.
+    wrapper_dir = Path(tempfile.mkdtemp(prefix="cc-", dir=build))
+    wrapper, command_log = wrapper_dir / "cc", wrapper_dir / "commands.jsonl"
+    wrapper.write_text("#!/usr/bin/env python3\nimport json, os, sys\n"
+                       f"compiler = {cc!r}\nlog = {str(command_log)!r}\n"
+                       "args = sys.argv[1:]\n"
+                       "probe = any(a in args for a in ('-v', '--version', '-dumpversion', '-dumpmachine'))\n"
+                       "effective = [compiler, *args, *([] if probe else ['-O2', '-UNDEBUG'])]\n"
+                       "with open(log, 'a') as f: f.write(json.dumps(effective) + '\\n')\n"
+                       "os.execv(compiler, effective)\n")
+    wrapper.chmod(0o755)
     sodium_flags = shlex.split(run(["pkg-config", "--cflags", "--libs", "libsodium"]))
-    public_command = [str(goose), "build", "bench/bench.goose", "--cc", cc, "-O2", "-o", str(public_binary)]
+    public_command = [str(goose), "build", "bench/bench.goose", "--cc", str(wrapper), "-O2", "-o", str(public_binary)]
     direct_command = [cc, "-std=c11", "-O2", "-Wall", "-Wextra", "-Werror", "bench/direct.c", *sodium_flags, "-o", str(direct_binary)]
     run(public_command)
     run(direct_command)
@@ -112,7 +124,7 @@ def main() -> None:
         for name, binary in order:
             output = run([str(binary), str(args.iterations)])
             rows = parse(output, args.iterations)
-            if len(rows) != (15 if name == "goose" else 11):
+            if len(rows) != (15 if name == "goose" else 10):
                 raise ValueError(f"Unexpected fixture count for {name}: {len(rows)}")
             samples.append({"sample": sample, "implementation": name, "stdout": output, "rows": rows})
             paired[name] = {(r["fixture"], r["bytes"], r["chunk_or_signature_bytes"]): r["checksum"] for r in rows}
@@ -133,7 +145,11 @@ def main() -> None:
                       "goose_binary_sha256": compiler_hashes["goose"], "cc": cc,
                       "cc_binary_sha256": compiler_hashes["cc"], "cc_version": cc_version,
                       "libsodium": run(["pkg-config", "--modversion", "libsodium"]).strip(),
-                      "build_commands": [public_command, direct_command]},
+                      "build_commands": [public_command, direct_command],
+                      "effective_public_compiler_commands": [json.loads(line) for line in command_log.read_text().splitlines()],
+                      "public_compiler_wrapper": wrapper.read_text(),
+                      "build_environment": {k: os.environ.get(k) for k in ("CC", "CFLAGS", "CPPFLAGS", "LDFLAGS", "CMAKE_GENERATOR")},
+                      "public_linkage": run(["ldd", str(public_binary)])},
         "machine": {"platform": platform.platform(), "machine": platform.machine(),
                     "cpu_models": cpu_models, "logical_cpus": os.cpu_count(),
                     "affinity": sorted(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else None},
@@ -144,7 +160,7 @@ def main() -> None:
         "notes": ["CLOCK_MONOTONIC via Goose os::clock_ns and C clock_gettime; total batch nanoseconds",
                   "Outputs checked and consumed in timing loops; fixed buffers allocated outside timing",
                   "SHA incremental measurements include init, all updates and finish per message",
-                  "Direct length rejection is a C condition, not a libsodium length-checked interface",
+                  "No direct malformed-length baseline: invariant C checks can be hoisted",
                   "No direct hex baseline; no claimed universal ranking; no timing thresholds"]}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")

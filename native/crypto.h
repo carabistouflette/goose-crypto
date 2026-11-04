@@ -11,6 +11,7 @@ enum { GC_SHA256_BYTES = 32, GC_STATE_BYTES = 128,
        GC_ED25519_PUBLICKEY_BYTES = 32, GC_ED25519_SIGNATURE_BYTES = 64 };
 #define GC_SHA256_MAX_BYTES UINT64_C(2305843009213693951)
 
+int64_t gc_disjoint(gc_input input, gc_output output);
 int64_t gc_sha256(gc_input message, gc_output digest);
 int64_t gc_sha256_init(gc_output state);
 int64_t gc_sha256_update(gc_output state, gc_input message);

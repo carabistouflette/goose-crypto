@@ -1,0 +1,25 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build python3 pkg-config libsodium-dev clang python3-cryptography
+      - run: make setup
+      - run: make check test
+      - run: make sanitize public-sanitize SANITIZER_CC=gcc
+      - run: make sanitize public-sanitize SANITIZER_CC=clang
+      - run: make fuzz FUZZ_RUNS=10000
+      - run: make bench BENCH_ITERATIONS=10
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: benchmark-samples
+          path: .build/bench.json
+          include-hidden-files: true
+          if-no-files-found: warn

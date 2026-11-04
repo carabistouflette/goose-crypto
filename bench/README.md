@@ -31,15 +31,16 @@ They include init, every update and finish per message in both implementations.
 The one-byte case uses the smaller message deliberately to bound harness runtime.
 Hex encode/decode use 32- and 1,024-byte decoded messages and have no direct baseline.
 Signature cases use an empty message with a valid signature, a same-sized invalid
-signature (bit 0 flipped), and a 63-byte wrong-length signature. Wrong-length C
-rejection is a conditional matching the public contract; libsodium's raw verifier
-has no signature-length parameter. It should not be read as a cryptographic speed
-comparison. Goose hex decoding validates before writing and traverses input twice.
+signature (bit 0 flipped), and a 63-byte wrong-length signature. Malformed-length timing is public-only: libsodium has no length parameter and
+an invariant C length check can be hoisted outside the loop. Goose hex decoding validates before writing and traverses input twice.
 
 The script alternates implementation order between paired samples. It preserves
 unsorted sample order, total elapsed nanoseconds, iteration counts, checksums and
 raw stdout. The clock is monotonic (`os::clock_ns` / `CLOCK_MONOTONIC`); per-call
-values are derived from whole-batch durations. Both binaries use `-O2`; native
+values are derived from whole-batch durations. A fresh compiler wrapper forces `-O2 -UNDEBUG` for generated Goose/runtime C and
+the native CMake adapter, overriding CMake Release defaults. Exact compiler
+invocations, selected build environment and executable linkage are recorded.
+Direct C uses `-O2` with assertions enabled. Native
 adapter validation, initialization guards and state serialization remain part of
 public-call costs. Direct C omits Goose/native seam checks and state serialization.
 These are wrapper-overhead observations, not independent cryptographic algorithms.

@@ -12,3 +12,7 @@ dependencies/generated outputs are not committed.
 Tests use SHA-256 known answers and Ed25519 vectors from
 [RFC 8032 section 7.1](https://www.rfc-editor.org/rfc/rfc8032#section-7.1).
 Python hashlib and libsodium are separately installed test dependencies.
+
+Signature differential tests use separately installed Python cryptography
+(Apache-2.0/BSD-3-Clause) and its OpenSSL backend under their distribution notices.
+No signing capability is exposed by the library.
