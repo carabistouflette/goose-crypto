@@ -139,3 +139,10 @@ The server generates bodies in fixed chunks. Child RSS is sampled for 8 MiB and
 universal performance claims. Results, source/binary fingerprints and compiler
 transcripts default to ignored `.build/` outputs. This is regression coverage of
 a composition, not certification of a complete secure update protocol.
+
+The successful-transfer gate includes a withheld-last-byte barrier: the fixture
+waits until the prefix is written and confirms that no final entry exists before
+releasing the last byte. The reset case waits for every signed prefix byte to be
+written before an abortive TCP close. Input/source, compiler/backend and consumer
+binary fingerprints are checked before and after execution; changed inputs reject
+the result rather than attributing observations to a moving tree.
