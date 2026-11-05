@@ -1,11 +1,23 @@
 # goose-crypto
 
-SHA-256, strict hex conversion and detached Ed25519 verification for
-[Goose](https://github.com/aardappel/goose), backed by system libsodium.
-Apache-2.0. Experimental interface; initial prerelease `v0.1.0-alpha.1`.
+Hash bytes with SHA-256, convert strict hexadecimal strings, and verify detached
+Ed25519 signatures in Goose. Uses system libsodium; Apache-2.0.
+
+Experimental API, tested on Linux x86-64/glibc. The released core is
+[v0.1.0-alpha.1](https://github.com/carabistouflette/goose-crypto/releases/tag/v0.1.0-alpha.1)
+at `a4643f62bd5e76b371054c6537a95169a7930101`. Main also contains optional
+network/file examples that are absent from that release. The core implementation
+is unchanged; see [the source check](docs/AUDIT.md).
+
+## Quickstart
+
+Install libsodium development headers (>=1.0.18), pkg-config, CMake and a C
+compiler, and use the Goose revision in [GOOSE_REVISION](GOOSE_REVISION).
+On Ubuntu, the native dependency is `sudo apt-get install libsodium-dev pkg-config`.
+Save this as `main.goose`, then run `goose run main.goose`:
 
 ```goose
-import crypto from "carabistouflette/goose-crypto@c6774f59f8d5a4e46c247ededd6d9ecdcd5c6502";
+import crypto from "carabistouflette/goose-crypto@a4643f62bd5e76b371054c6537a95169a7930101";
 import std;
 fn main() {
     var digest: u8[32] = [0; 32];
@@ -16,101 +28,64 @@ fn main() {
 }
 ```
 
-Save this as `main.goose`, then run `goose run main.goose`. Declare the package
-in the application's root source. The example pins published source; for local
-work use `import crypto from "../goose-crypto";`. Namespace: `crypto`.
+The output is the SHA-256 of `abc`:
+`ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad`.
+Package imports belong in the application's root source file.
 
-Public repository: [carabistouflette/goose-crypto](https://github.com/carabistouflette/goose-crypto).
+## API
 
-## Development
+Every function returns `crypto::Error`; only `Error.None` means success.
 
-Ubuntu dependencies: Git, CMake >=3.27, Make, pkg-config, C/C++20 toolchain,
-Python >=3.11 with cryptography, libsodium development headers >=1.0.18, Clang for fuzzing.
-
-```sh
-sudo apt-get install git build-essential cmake ninja-build pkg-config python3 python3-cryptography libsodium-dev clang
-git clone https://github.com/carabistouflette/goose-crypto.git
-cd goose-crypto
-make setup
-make format check test
-make sanitize public-sanitize SANITIZER_CC=gcc
-make sanitize public-sanitize SANITIZER_CC=clang
-make fuzz
-make bench
-```
-
-Setup builds exact GOOSE_REVISION with optional builtins disabled. Select a
-matching compiler with `GOOSE=/absolute/path/to/goose`. Initial target: Linux
-x86-64/glibc; other platforms unverified. System libsodium is required at link
-and run time. No backend code is vendored.
-
-## Interface
-
-Every function returns `crypto::Error`. Only `Error.None` means success.
-
-| Function | Contract |
+| Function | Required storage/behavior |
 | --- | --- |
-| `sha256(message, digest)` | Hash bytes into exactly 32 output bytes |
+| `sha256(message, digest)` | Exactly 32 output bytes |
 | `init(state)` | Initialize/reset caller-owned `Sha256` |
-| `update(state, bytes)` | Append bytes to active state |
-| `finish(state, digest)` | Write exactly 32 bytes, clear/deactivate state |
-| `verify_ed25519(message, signature, public_key)` | Verify exact bytes; signature 64 bytes, key 32 bytes |
-| `hex_encode(bytes, output)` | Lowercase hex, exactly twice as many output bytes |
-| `hex_decode(text, output)` | Upper/lowercase hex, exactly half as many output bytes |
+| `update(state, bytes)` | Append to an active state |
+| `finish(state, digest)` | Write 32 bytes, clear/deactivate the state |
+| `verify_ed25519(message, signature, public_key)` | Exact message bytes, 64-byte signature, 32-byte key |
+| `hex_encode(bytes, output)` | Lowercase hex; output length is twice the input |
+| `hex_decode(text, output)` | Upper/lowercase hex; output length is half the input |
 
-Inputs are binary, including NUL. Empty messages/chunks/hex are valid. Hex rejects
-whitespace, prefixes, separators, non-ASCII and odd lengths. No buffers grow.
-Writable spans must be disjoint from all readable spans and each other; runtime
-checks reject exact/partial overlap. Every failure leaves state/output unchanged.
+Empty messages, update chunks and hex strings are valid, subject to the required
+lengths above. Hex rejects whitespace, prefixes, separators, non-ASCII,
+odd lengths and wrong output sizes. Output never grows. Writable spans must not
+overlap readable spans or each other; exact/partial overlap is checked at runtime.
+Every reported error preserves caller state/output.
 
-Errors: InvalidInput (sizes/overlap/hex), InvalidState (inactive/detectably corrupted
-state), InvalidSignature (correct lengths but verification fails), BackendFailure
-(backend/init), LimitExceeded (SHA-256 exceeds 2^61-1 total bytes). Precedence for
-multiple invalid arguments is unspecified.
+Errors distinguish invalid input, inactive or detectably corrupted state,
+invalid signature,
+backend failure and the SHA-256 total-input limit (2^61−1 bytes). Length/overlap
+errors are different from a correctly sized signature that fails verification.
 
-A default `Sha256 { .. }` is inactive: call init, update zero or more times, then
-finish. Reinitialize before reuse. Copying active state forks its prefix.
-`_state` and native/helper functions are implementation details. Never modify,
-persist or exchange state bytes. They depend on backend/platform and can contain
-original input. Clearing live state does not securely erase stack/compiler/caller
-copies. Independent states may run concurrently; shared-state mutation may not.
+Call `init`, zero or more `update`s, then `finish`. Reset before reuse. Copying an
+active state forks its prefix. State is an implementation detail that can contain
+original input: do not modify, persist or exchange it. Clearing live storage does
+not securely erase caller/compiler copies. Independent states can run concurrently;
+shared-state mutation cannot. See [the full contract](docs/design.md).
 
-Hash/verification work is O(message bytes), with bounded adapter stack storage;
-state is 128 bytes. Hex is O(input bytes), validating before decode writes. The
-adapter allocates no per-call storage and retains no pointers. First crypto use
-calls thread-safe sodium_init, which may perform OS/randomness initialization.
-Hex does not initialize the backend. Goose allocation failure follows its runtime.
+## Trust
 
-## Trust and limits
+Supply the expected digest and public key through your own trust process.
+A downloaded key does not establish trust. Signatures cover exact bytes; verify
+signed metadata before parsing it. Applications supply encoding, protocol context,
+key rotation, expiry, freshness, rollback prevention and authorization.
 
-Checksums authenticate bytes only with a trusted expected checksum. Signatures
-verify exact bytes under a caller-trusted key. Applications own key discovery,
-serialization, expiry, rollback protection, authorization and installation.
-Verify signed metadata bytes before parsing them.
+Verification follows libsodium's strict pure detached Ed25519, not Ed25519ph/ctx.
+Do not replace the message with a digest unless the signing protocol specifies it.
+SHA-256 is unkeyed: do not use secret-prefix hashing as a MAC or SHA-256 for
+passwords. The module exposes no signing, encryption, RNG, I/O or secure-memory API.
 
-Acceptance follows libsodium's strict pure Ed25519 detached verifier (including
-noncanonical scalar/small-order rejection), not Ed25519ph/Ed25519ctx. Never
-substitute a digest unless the signing protocol specifies it. No streaming
-signatures, signing, encryption, password hashing, RNG interface or I/O. Keep
-system dependencies patched. SHA-256 is unkeyed; do not use secret-prefix SHA-256
-as a MAC or use SHA-256 for passwords. No secure-memory guarantee.
+## Examples and development
 
-See [validation](docs/validation.md), [benchmarks](bench/README.md),
-[contributing](CONTRIBUTING.md), [security](SECURITY.md), and
-[notices](THIRD_PARTY_NOTICES.md).
+| Main-only example | Purpose |
+| --- | --- |
+| [Buffered archive](examples/artifact/README.md) | Verify signed metadata, download at most 4 MiB, then extract into a fresh directory |
+| [Streaming download](examples/download/README.md) | Verify metadata, stream to private staging, then publish with checked rename outcomes |
 
-## Artifact verification example
+These examples have separate dependencies and trust/filesystem requirements.
+For a reusable streaming API, see [goose-artifact](https://github.com/carabistouflette/goose-artifact).
 
-The optional [artifact consumer](examples/artifact/README.md) verifies exact signed
-metadata before parsing or networking, requires a caller-authorized HTTPS URL,
-checks a bounded download's SHA-256, then extracts into a fresh directory.
-It composes pinned public libraries and has separate loopback HTTPS integration
-checks. HTTP is buffered (4 MiB cap); it is not an installer or a complete update
-protocol. This example was added after `v0.1.0-alpha.1`; see the main branch for it.
-
-The optional [streaming download consumer](examples/download/README.md) writes
-bounded HTTPS chunks into a private staging file and publishes only after clean
-transport completion and digest verification. It demonstrates cooperative signal
-cancellation, checked file synchronization and conservative rename outcomes.
-The caller owns trust, freshness and installation policy. This example also
-postdates `v0.1.0-alpha.1`.
+[Contributing](CONTRIBUTING.md) lists build/test prerequisites and commands.
+[Validation](docs/validation.md) records tests; [benchmarks](bench/README.md)
+explain the historical same-backend overhead measurements and source match.
+See also [security](SECURITY.md) and [notices](THIRD_PARTY_NOTICES.md).

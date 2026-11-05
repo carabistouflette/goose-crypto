@@ -1,4 +1,7 @@
-# Validation record — 2026-11-04
+# Historical core validation — 2026-11-04
+
+These records keep their original tested identities. See [AUDIT.md](AUDIT.md)
+for current/released code matches and checked examples.
 
 Validated implementation: `fc3ba768dd4d00fc8592873810ffe4f1be722564`.
 This document and the recorded artifacts were added afterward without changing

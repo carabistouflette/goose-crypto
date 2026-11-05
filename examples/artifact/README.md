@@ -9,7 +9,7 @@ checkout. These example-only dependencies do not affect ordinary crypto consumer
 ## Build and run
 
 Add system libcurl >=7.85 with TLS/asynchronous DNS/thread-safe initialization,
-libarchive >=3.6, zlib >=1.2.11 and a C++17 runtime/compiler to crypto's development
+libarchive >=3.6, zlib >=1.2.11 and a C++20 runtime/compiler to crypto's development
 prerequisites. Ubuntu packages: `libcurl4-openssl-dev libarchive-dev zlib1g-dev`.
 The pinned compiler fetches public commits during build. Linux x86-64/glibc is
 the validated platform.
@@ -17,6 +17,7 @@ the validated platform.
 From the repository root:
 
 ```sh
+mkdir -p .build
 .toolchain/goose/build/goose build examples/artifact/main.goose -o .build/artifact
 .build/artifact /absolute/metadata.json SIGNATURE_HEX TRUSTED_KEY_HEX \
   https://your-authorized-origin.example/artifact.tar.gz /absolute/new-directory
@@ -62,29 +63,22 @@ A valid signature is not a complete update protocol. Applications own key trust/
 rotation, freshness/expiry, rollback prevention, protocol context, origin/DNS
 policy, destination authorization and installation. A downloaded key is not a
 trust anchor. This two-field schema deliberately supplies none of those policies.
-The example is not integrated into Honk.
 
-## Integration checks
 
-Python cryptography generates test-only signatures, archives and a temporary
-localhost certificate. Tests use real loopback HTTPS, with no external artifact
-requests. An isolated compiler wrapper links transport.c only into the fixture
-binary. It installs that temporary CA for the exact expected localhost URL and
-preserves peer/hostname verification. A separate production binary has no shim
-or fixture-environment handling and must reject the untrusted certificate.
+## Runnable local demonstration
+
+The production invocation above is a template: replace every path, signature,
+key and URL with your independently authorized inputs. For a complete local run,
+the integration harness generates signed metadata and a loopback TLS fixture:
 
 ```sh
 python3 examples/artifact/integration.py --goose .toolchain/goose/build/goose --cc gcc
-python3 examples/artifact/integration.py --goose .toolchain/goose/build/goose --cc gcc --sanitize
-python3 examples/artifact/integration.py --goose .toolchain/goose/build/goose --cc clang --sanitize
 ```
 
-Cases check successful contents and signature/key/metadata/digest rejection,
-strict JSON schema, URL mismatch, unsafe archive paths, existing destinations,
-redirect/status, body/header caps and untrusted TLS. Assertions check no request
-before authentication/schema/URL validation and no tree on rejected verification,
-digest, limits or archive validation. Existing destination sentinel stays intact.
-Sanitizers instrument the fixture generated Goose/runtime and C/C++ native adapters
-through matching compiler wrappers; the production TLS-rejection binary remains
-an ordinary release build. System backends
-remain uninstrumented. Generated keys/certificates/binaries stay ignored or temporary.
+This needs Python cryptography and the build dependencies above. It fetches pinned
+source packages but does not contact an external artifact service. The fixture
+CA is injected only into its test binary; the production binary must reject it.
+See [VALIDATION.md](VALIDATION.md) for scenarios, sanitizer commands, raw results
+and limits. [AUDIT.md](../../docs/AUDIT.md) distinguishes current main from the
+release and records checked commands. RSS observations are not an allocator/RSS
+ceiling or throughput measurement.

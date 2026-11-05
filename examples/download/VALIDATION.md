@@ -1,5 +1,8 @@
 # Streaming download validation — 2026-11-05
 
+Historical test record. Current example instructions and source matches are in
+[README.md](README.md) and [the audit](../../docs/AUDIT.md).
+
 Validated implementation and harness:
 `8a6b653d6d4a338cd3eac3ff04acfa29ee4ba3a2`, with a clean working tree.
 This record and raw results were added afterward without changing executable
@@ -55,3 +58,16 @@ This is finite Linux regression coverage under the private-parent/no-other-write
 and nonaliasing-name assumptions. It does not establish crash cleanup, hard wall
 deadlines, universal filesystem durability or application trust/freshness policy.
 The immutable core release tag and parent registration are unchanged.
+
+## Reproduce the integration checks
+
+From a current main checkout after installing the example's dependencies:
+
+```sh
+python3 examples/download/integration.py --goose .toolchain/goose/build/goose --cc gcc
+python3 examples/download/integration.py --goose .toolchain/goose/build/goose --cc gcc --sanitize
+python3 examples/download/integration.py --goose .toolchain/goose/build/goose --cc clang --sanitize
+```
+
+New output describes the checked-out source. It does not replace or relabel
+the historical records above.

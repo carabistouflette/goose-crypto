@@ -1,4 +1,7 @@
-# Initial performance record
+# Historical crypto wrapper record
+
+This archive retains its original measured identity. For the current code match
+and backend-identity limitation, see [AUDIT.md](../../../docs/AUDIT.md).
 
 [raw.json](raw.json) records clean source commit
 `fc3ba768dd4d00fc8592873810ffe4f1be722564`, 1,000 iterations per fixture and five

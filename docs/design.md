@@ -1,7 +1,8 @@
 # Design contract
 
 Experimental Goose library for byte hashing and public-key signature verification.
-Use system libsodium >= 1.0.18. No home-grown cryptographic algorithms.
+Use system libsodium >= 1.0.18. The module checks input/lifecycle and calls
+libsodium.
 Initial validation target: Linux x86-64/glibc; other platforms unverified.
 
 Public namespace crypto. SHA-256 digest is exactly 32 bytes, Ed25519 public key

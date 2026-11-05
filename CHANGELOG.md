@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Clearer setup/API/example guides and an explicit source match for the historical
+wrapper benchmark. Main also contains a buffered signed-archive example; neither
+network/file example is included in the alpha.1 core release.
+
 Optional verified streaming download example: pinned HTTP/FS composition,
 bounded incremental hashing and writes, cooperative SIGINT/SIGTERM cleanup,
 checked synchronization and no-replace publication. Separate real-TLS integration

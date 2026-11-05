@@ -1,7 +1,8 @@
 # Security policy
 
-Experimental library; no supported release yet. Use reviewed commits and patched
-system libsodium. Passing checks is not a security certification.
+Experimental prerelease API; no stable compatibility promise before 1.0. Use
+reviewed immutable releases and patched system libsodium. Passing checks are not
+a security certification.
 
 Report vulnerabilities through [GitHub private vulnerability reporting](https://github.com/carabistouflette/goose-crypto/security/advisories/new).
 Do not include vulnerability details in public issues. Include the affected

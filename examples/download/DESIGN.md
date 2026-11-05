@@ -37,7 +37,7 @@ bytes and an early HTTP 200 are never sufficient to authorize publication.
 After terminal transport success, finish and compare the trusted expected digest.
 Check file data sync and explicit close before attempting no-replace rename.
 Publish only verified bytes into a previously absent final name. No automatic
-execution or extraction. Existing archive size limits remain separate.
+execution or extraction.
 
 ## Failure and outcome handling
 
@@ -63,23 +63,14 @@ exit/abort. Cancellation mechanism must permit cleanup rather than terminating
 inside a signal handler. Define its boundary/latency from HTTP pumping; do not
 promise hard wall deadlines for DNS cleanup, file syscalls or sync.
 
-## Validation gates
+## Tests and cancellation boundary
 
-Independent design/security/interface reviews before implementation. Repeated
-code reviews after integration. Real loopback HTTPS fixtures: large successful
-body beyond buffered-example cap, tiny and empty chunks/body, cancellation at
-multiple offsets, stalled server, truncated Content-Length/reset, bad HTTP status,
-redirect, TLS rejection, cumulative body/header caps, signed-digest mismatch,
-exclusive staging collision, existing final, disk/write/sync/close failure,
-publication outcomes and cleanup failures. Assert exact error stage, no premature
-final entry, original bytes preserved, residue policy and descriptor cleanup.
-Bounded adapter memory must be justified and measured across increasing totals;
-streaming does not imply a hard whole-process RSS cap. Retain raw provenance and
-avoid universal performance claims or timing thresholds in CI.
+[VALIDATION.md](VALIDATION.md) records the signed loopback TLS, cancellation,
+write/sync/close failure, collision, cleanup and rename-outcome checks. These
+checks do not establish hard wall deadlines, crash cleanup or universal
+filesystem durability.
 
-HTTP and FS owners have published the reviewed immutable sources pinned by
-main.goose. Consumer imports use those public commits.
-
-The last cancellation check before rename is the publication commitment boundary.
-Signals after it cannot promise final absence. Repeated SIGINT/SIGTERM must not
-skip cooperative cleanup; SIGKILL, crash and abort cleanup are not guaranteed.
+The HTTP and FS imports in `main.goose` pin public commits. The last cancellation
+check before rename is the publication commitment boundary. Signals after it
+cannot promise final absence. Repeated SIGINT/SIGTERM must not skip cooperative
+cleanup; SIGKILL, crash and abort cleanup are not guaranteed.

@@ -1,5 +1,8 @@
 # Artifact consumer validation — 2026-11-04
 
+Historical test record. Current example instructions and source matches are in
+[README.md](README.md) and [the audit](../../docs/AUDIT.md).
+
 Validated example implementation: `7cd52c6b6385ed80396e26f3608c79c5c7e129fd`.
 Result records were added afterward without changing consumer/harness code.
 
@@ -52,4 +55,18 @@ wrappers. It reproduced the same missing symbols before the fix and passes after
 it. This catches the failure across compiler versions, independently of their
 default sanitizer groups. The complete 22-case suites pass with Clang 23 and
 GCC 16 sanitizers, including explicit C++ vptr checks. An independent focused
-review approved the fix. Hosted Clang 18 validation is required before merge.
+review approved the fix. That was the pre-merge validation requirement; the fix is now part of published
+main. These earlier local records retain their original compiler/source identities.
+
+## Reproduce the integration checks
+
+From a current main checkout after installing the example's dependencies:
+
+```sh
+python3 examples/artifact/integration.py --goose .toolchain/goose/build/goose --cc gcc
+python3 examples/artifact/integration.py --goose .toolchain/goose/build/goose --cc gcc --sanitize
+python3 examples/artifact/integration.py --goose .toolchain/goose/build/goose --cc clang --sanitize
+```
+
+New output describes the checked-out source. It does not replace or relabel
+the historical records above.
