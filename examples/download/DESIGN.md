@@ -4,6 +4,12 @@ Application example composing Goose crypto, HTTP and filesystem libraries.
 Experimental Linux x86-64 target. No installer, extraction or trust-policy API.
 Core crypto remains byte-oriented and independent of I/O.
 
+The implementation delegates this contract to pinned goose-artifact
+`c2d190b613c541a5dba839ce380de8b111c9ab0c`. `workflow.goose` adapts its results
+to the example's existing diagnostics; `main.goose` owns the signal guard.
+Verification, transfer, publication and resource cleanup have one implementation
+in goose-artifact.
+
 ## Trust and ordering
 
 Input: bounded metadata file, detached Ed25519 signature and trusted public-key
