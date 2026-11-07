@@ -5,6 +5,10 @@ SHA-256 into an exclusively created staging file, and publishes verified bytes
 with a no-replace rename. It does not buffer the complete artifact, extract it,
 install it or execute it. Core goose-crypto remains independent of I/O.
 
+The workflow delegates to goose-artifact pinned at
+`c2d190b613c541a5dba839ce380de8b111c9ab0c`. The local adapter preserves the
+example's diagnostic fields, exit codes and application-owned signal guard.
+
 The example pins public sources: HTTP streaming at
 [`aa915a0`](https://github.com/carabistouflette/goose-http/blob/aa915a0b21db1129f85e6e339a6f0171bcac0e77/docs/API.md)
 and filesystem retained I/O and checked rename at
