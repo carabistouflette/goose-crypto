@@ -9,6 +9,11 @@ Development fetches [Goose](https://github.com/aardappel/goose) at GOOSE_REVISIO
 Its Apache-2.0 license and third-party notices remain in that checkout. Downloaded
 dependencies/generated outputs are not committed.
 
+The optional download example imports Apache-2.0 goose-artifact at
+`c2d190b613c541a5dba839ce380de8b111c9ab0c` for the verified streaming workflow.
+Its source and license stay in the compiler's downloaded dependency checkout.
+This example-only dependency does not affect core crypto consumers.
+
 Tests use SHA-256 known answers and Ed25519 vectors from
 [RFC 8032 section 7.1](https://www.rfc-editor.org/rfc/rfc8032#section-7.1).
 Python hashlib and libsodium are separately installed test dependencies.

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+import artifact from "carabistouflette/goose-artifact@c2d190b613c541a5dba839ce380de8b111c9ab0c";
 import crypto from "../..";
 // Reviewed public streaming source, published by the HTTP owner.
 import http from "carabistouflette/goose-http@aa915a0b21db1129f85e6e339a6f0171bcac0e77";
